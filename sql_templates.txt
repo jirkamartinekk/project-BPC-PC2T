@@ -1,5 +1,5 @@
-zamestnanci(int - PK, text, text, int, text check (skupina in ('DATA','SEC')))
-spoluprace((int, int) - PK, text check (uroven in ('spatna','prumerna','dobra')))
+zamestnanci(int id - PK, text jmeno, text prijmeni, int rok_narozeni, text skupina check (skupina in ('DATA','SEC')))
+spoluprace((int zamestnanec_id, int spolupracovnik_id) - PK, text uroven check (uroven in ('spatna','prumerna','dobra')))
 
 Vlozeni zaznamu do tabulky (SQL):
 
@@ -7,7 +7,7 @@ insert into zamestnanci(id, jmeno, prijmeni, rok_narozeni, skupina) values (1, '
 
 PreparedStatement pro pouzit v Java:
 
-String sql = "INSERT INTO zamestnanec (jmeno, prijmeni, rok_narozeni, skupina) VALUES (?, ?, ?, ?)";
+String sql = "INSERT INTO zamestnanci (jmeno, prijmeni, rok_narozeni, skupina) VALUES (?, ?, ?, ?)";
 
 PreparedStatement ps = conn.prepareStatement(sql);
 ps.setString(1, "Jan");
