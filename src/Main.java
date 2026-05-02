@@ -32,6 +32,7 @@ public class Main {
             switch (vybranaMoznost){
                 case 0:
                     behProgramu = false;
+                    System.out.print("Program byl úspěšně ukončen'");
                     break;
                 case 1:
                     break;
