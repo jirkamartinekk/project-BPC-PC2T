@@ -1,15 +1,38 @@
+Vytvoreni tabulek:
+Zamestnanci:
+create table zamestnanci(
+	id int primary key,
+  	jmeno varchar(32),
+  	prijmeni varchar(32),
+  	rok_narozeni smallint,
+  	skupina tinyint
+);
+
+Spoluprace:
+create table spoluprace(
+	zamestnanec_id smallint,
+  	spolupracovnik_id smallint,
+  	uroven text check (uroven IN ('spatna', 'prumerna', 'dobra')),
+
+  	primary key(zamestnanec_id, spolupracovnik_id),
+  	FOREIGN KEY (zamestnanec_id) REFERENCES zamestnanec(id),
+    FOREIGN KEY (spolupracovnik_id) REFERENCES zamestnanec(id),
+    CHECK (zamestnanec_id != spolupracovnik_id)
+);
+
 zamestnanci(int id - PK, text jmeno, text prijmeni, int rok_narozeni, text skupina check (skupina in ('DATA','SEC')))
 spoluprace((int zamestnanec_id, int spolupracovnik_id) - PK, text uroven check (uroven in ('spatna','prumerna','dobra')))
 
 Vlozeni zaznamu do tabulky (SQL):
 
+Priklad:
 insert into zamestnanci(id, jmeno, prijmeni, rok_narozeni, skupina) values (1, 'Marek', 'Mikulášek', 2001, 'SEC');
 
 PreparedStatement pro pouzit v Java:
 
 String sql = "INSERT INTO zamestnanci (jmeno, prijmeni, rok_narozeni, skupina) VALUES (?, ?, ?, ?)";
 
-PreparedStatement ps = conn.prepareStatement(sql);
+PreparedStatement ps = pripojeni.prepareStatement(sql);
 ps.setString(1, "Jan");
 ps.setString(2, "Novak");
 ps.setInt(3, 1995);
@@ -19,6 +42,7 @@ ps.executeUpdate();
 
 --------------------------------------------------------------------------------------------------------------------------------
 Dotaz pro vyvolani z databaze (SQL):
+Priklad:
 
 select * (column) from spoluprace(table) where uroven = 'dobra' (podminka)
 
@@ -26,7 +50,7 @@ PreparedStatement pro pouziti v Java:
 
 String sql = "SELECT * FROM spoluprace WHERE uroven = ?"
 
-PreparedStatement ps = conn.preparedStatement(sql);
+PreparedStatement ps = pripojeni.preparedStatement(sql);
 ps.setString(1, "dobra");
 
 ps.executeQuery();
@@ -41,3 +65,19 @@ while (rs.next()) {
     System.out.println(from + " -> " + to + " : " + uroven);
 }
 --------------------------------------------------------------------------------------------------------------------------------
+Smazani zaznamu z databaze(SQL):
+
+DELETE FROM *table* (WHERE podminka);
+
+Priklad:
+
+DELETE FROM zamestnanci;
+
+PreparedStatement pro pouziti v Java:
+
+String sql = "DELETE FROM zamestnanci";
+
+PreparedStatement ps = pripojeni.prepareStatement(sql);
+ps.setString(1, id);
+
+ps.executeUpdate();
