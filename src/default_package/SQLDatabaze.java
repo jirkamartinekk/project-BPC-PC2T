@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+//TODO: Jiřík opět změnil skupinu na string :D 😘
+
 public class SQLDatabaze {
     private Connection pripojeni = null;
 
@@ -40,7 +42,7 @@ public class SQLDatabaze {
             ps.setString(2, pracovnik.ziskejJmeno());
             ps.setString(3, pracovnik.ziskejPrijmeni());
             ps.setInt(4, pracovnik.ziskejRokNarozeni());
-            ps.setByte(5, pracovnik.ziskejSkupinu());
+            ps.setString(5, pracovnik.ziskejSkupinu());
 
             ps.executeUpdate();
         } catch (SQLException e) {

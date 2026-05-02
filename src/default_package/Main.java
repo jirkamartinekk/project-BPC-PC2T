@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        //TODO: načtení dat z SQL databáze
         final String VYPIS_MENU =
                 "--- HLAVNÍ MENU --- \n" +
                         "SPRÁVA ZAMĚSTNANCŮ\n" +
@@ -21,7 +22,7 @@ public class Main {
                         "\t9 ... [ULOŽIT]    zaměstnance do souboru\n" +
                         "\t10 .. [NAČÍST]    zaměstnance ze souboru\n" +
                         "SYSTÉM\n" +
-                        "\t0 ... [UKONČIT]   program a synchronizovat s databází\n";
+                        "\t0 ... [UKONČIT]   program a synchronizovat databázi\n";
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_GREEN = "\u001B[32m";
@@ -33,21 +34,21 @@ public class Main {
 
         //začátek programu
         while (behProgramu) {
+            int pocetPrvkuDatabaze = lokalniDatabaze.pocetPrvkuDatabaze();
             System.out.println(VYPIS_MENU);
             System.out.print("Vybraná možnost: ");
             vybranaMoznost = sc.nextShort();
             switch (vybranaMoznost) {
                 case 0: {
                     behProgramu = false;
-                    //TODO: kód pro uložení dat do databáze přes SQL
-                    //TODO: ohlídat si try-catch*/
+                    //TODO: kód pro uložení dat do databáze přes SQL - MIKEŠ
                     break;
                 }
                 case 1: {
                     String jmeno = "";
                     String prijmeni = "";
-                    Short rokNarozeni = 0;
-                    Byte skupina = 0;
+                    byte skupina = 0;
+                    short rokNarozeni = 0;
                     boolean vstupJeOk = false;
 
                     while (!vstupJeOk) {
@@ -58,8 +59,9 @@ public class Main {
                             prijmeni = sc.next().trim();
                             System.out.print("Zadej rok narození: ");
                             rokNarozeni = sc.nextShort();
-                            System.out.print("Zadej pracovní skupinu - Datový analytik (1) / Bezpečnostní specialista (2): ");
+                            System.out.print("Zadej pracovní skupinu (číslem) - Datový analytik (1) / Bezpečnostní specialista (2): ");
                             skupina = sc.nextByte();
+
                             sc.nextLine(); //vyčištění scanneru, ať to pak nemrdá podmínky níž
                             if (jmeno.isEmpty() || prijmeni.isEmpty()) {
                                 System.out.println(ANSI_RED + "CHYBA: Jméno nebo příjmení jsou prázdné!" + ANSI_RESET);
@@ -77,28 +79,29 @@ public class Main {
                             sc.nextLine();
                         }
                     }
+                    //noinspection ConstantValue
                     if (vstupJeOk) {
                         Zamestnanec novyZamestnanec = null;
                         switch (skupina) {
                             case 1:
-                                novyZamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, skupina);
+                                novyZamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, "Datový analytik");
                                 break;
                             case 2:
-                                novyZamestnanec = new Bezpecak(jmeno, prijmeni, rokNarozeni, skupina);
+                                novyZamestnanec = new Bezpecak(jmeno, prijmeni, rokNarozeni, "Bezpečnostní specialista");
                                 break;
                         }
                         lokalniDatabaze.pridejZamestnance(novyZamestnanec);
                         System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně přidán!\n" + ANSI_RESET);
+                        //noinspection UnusedAssignment
                         vstupJeOk = false;
                     }
                     break;
                 }
                 case 2: {
                     int ID = 0;
-                    int pocetPrvkuDatabaze = lokalniDatabaze.pocetPrvkuDatabaze();
                     if(pocetPrvkuDatabaze > 0){
                         try {
-                            System.out.println("Rozsah prvků databáze: " + pocetPrvkuDatabaze);
+                            //System.out.println("Rozsah prvků databáze: " + pocetPrvkuDatabaze);
                             System.out.print("Zadejte ID zaměstnance: ");
                             ID = sc.nextInt();
                             sc.nextLine();
@@ -119,27 +122,72 @@ public class Main {
                     break;
                 }
                 case 3: {
+                    int ID = 0;
+                    if(pocetPrvkuDatabaze > 0){
+                        try {
+                            System.out.print("Zadejte ID zaměstnance: ");
+                            ID = sc.nextInt();
+                            sc.nextLine();
+                        } catch (InputMismatchException e) {
+                            System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
+                            sc.nextLine();
+                        }
+                        Zamestnanec hledanyZamestnanec = lokalniDatabaze.najdiZamestnance(ID);
+                        if(hledanyZamestnanec != null){
+                            System.out.println(hledanyZamestnanec);
+                        }else{
+                            System.out.println(ANSI_RED + "CHYBA: Hledaný zaměstnanec je typu null!\n" + ANSI_RESET);
+                        }
+                    }else{
+                        System.out.print(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!\n" + ANSI_RESET);
+                    }
+                    //TODO: dopsat statistiky spolupráce (nejspíš v Zamestnanec.java)
                     break;
                 }
                 case 4: {
+                    //TODO: spolupráce mezi kolegy
                     break;
                 }
                 case 5: {
+                    int ID = 0;
+                    if(pocetPrvkuDatabaze > 0){
+                        try {
+                            System.out.print("Zadejte ID zaměstnance: ");
+                            ID = sc.nextInt();
+                            sc.nextLine();
+                        } catch (InputMismatchException e) {
+                            System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
+                            sc.nextLine();
+                        }
+                        Zamestnanec hledanyZamestnanec = lokalniDatabaze.najdiZamestnance(ID);
+                        if(hledanyZamestnanec != null){
+                            hledanyZamestnanec.spustDovednost();
+                        }else{
+                            System.out.println(ANSI_RED + "CHYBA: Hledaný zaměstnanec je typu null!\n" + ANSI_RESET);
+                        }
+                    }else{
+                        System.out.print(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!\n" + ANSI_RESET);
+                    }
                     break;
                 }
                 case 6: {
+                    //TODO: statistiky - MIKEŠ
                     break;
                 }
                 case 7: {
+                    //TODO: abecední výpis lidí ve skupinách
                     break;
                 }
                 case 8: {
+                    //TODO: počty zaměstnanců ve skupinách
                     break;
                 }
                 case 9: {
+                    //TODO: uložit zaměstnance do souboru - MIKEŠ
                     break;
                 }
                 case 10: {
+                    //TODO: načíst zaměstnance ze souboru - MIKEŠ
                     break;
                 }
             }

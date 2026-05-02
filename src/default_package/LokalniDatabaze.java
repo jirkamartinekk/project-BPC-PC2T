@@ -23,8 +23,8 @@ public class LokalniDatabaze {
         }
     }
 
-    public Zamestnanec najdiZamestnance(Zamestnanec zamestnanec){
-        return prvkyDatabaze.get(zamestnanec.ziskejID());
+    public Zamestnanec najdiZamestnance(int ID){
+        return prvkyDatabaze.get(ID);
     }
 
     public int pocetPrvkuDatabaze(){

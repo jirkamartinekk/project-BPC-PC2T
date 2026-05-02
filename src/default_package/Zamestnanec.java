@@ -8,11 +8,12 @@ public abstract class Zamestnanec{
     private String jmeno;
     private String prijmeni;
     private short rok_narozeni;
-    private Byte skupina;
+    private String skupina;
     private static int counter = 0;
-    private Map<Zamestnanec, String> spolupracovnici = new HashMap<>();
+    //TODO: vymyslet spojení na kolegy (níže je varianta - vylepšit)
+    //private Map<Zamestnanec, String> spolupracovnici = new HashMap<>();
 
-    public Zamestnanec(String jmeno, String prijmeni, short rok_narozeni, Byte skupina) {
+    public Zamestnanec(String jmeno, String prijmeni, short rok_narozeni, String skupina) {
         this.id = counter;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
@@ -37,7 +38,7 @@ public abstract class Zamestnanec{
         return rok_narozeni;
     }
 
-    public Byte ziskejSkupinu() {
+    public String ziskejSkupinu() {
         return skupina;
     }
 
@@ -49,7 +50,7 @@ public abstract class Zamestnanec{
 
     @Override
     public String toString(){
-        return String.format("*ID: %d\tJMÉNO: %s\tPŘÍJMENÍ: %s\tROK NAROZENÍ: %d", id, jmeno, prijmeni, rok_narozeni);
+        return String.format("*ID:%d\tJMÉNO:%s\tPŘÍJMENÍ:%s\tROK NAROZENÍ:%d\t SKUPINA:%s", id, jmeno, prijmeni, rok_narozeni, skupina);
     }
 
     @Override
