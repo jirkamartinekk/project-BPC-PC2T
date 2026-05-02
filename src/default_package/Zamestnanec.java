@@ -1,3 +1,5 @@
+package default_package;
+
 public class Zamestnanec{
     private int id;
     private String jmeno;
