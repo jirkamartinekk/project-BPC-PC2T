@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         //TODO: načtení dat z SQL databáze
+        //TODO:
         final String VYPIS_MENU =
                 "--- HLAVNÍ MENU --- \n" +
                         "SPRÁVA ZAMĚSTNANCŮ\n" +
