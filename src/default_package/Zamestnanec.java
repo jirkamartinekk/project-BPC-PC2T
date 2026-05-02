@@ -46,4 +46,32 @@ public abstract class Zamestnanec{
     }
 
     public abstract void spustDovednost();
+
+    @Override
+    public String toString(){
+        return String.format("*ID: %d\tJMÉNO: %s\tPŘÍJMENÍ: %s\tROK NAROZENÍ: %d", id, jmeno, prijmeni, rok_narozeni);
+    }
+
+    @Override
+    public boolean equals(Object kolega){
+        //jedná se o stejné objekty?
+        if (this == kolega) {
+            return true;
+        }
+
+        //je kolega typu Zaměstnanec?
+        if (!(kolega instanceof Zamestnanec)) {
+            return false;
+        }
+
+        Zamestnanec on = (Zamestnanec) kolega;
+
+        //jsou si rovni, pokud mají stejné ID
+        return this.id == on.id;
+    }
+
+    @Override
+    public int hashCode(){
+        return Integer.hashCode(id); //musí se zvolit pole, které se nemění | je použit Integer wrapper
+    }
 }
