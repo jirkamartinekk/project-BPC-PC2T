@@ -1,5 +1,6 @@
 package default_package;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -26,6 +27,7 @@ public class Main {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_GREEN = "\u001B[32m";
+        final String ANSI_YELLOW = "\u001B[33m";
 
         boolean behProgramu = true;
         int vybranaMoznost;
@@ -91,7 +93,7 @@ public class Main {
                                 break;
                         }
                         lokalniDatabaze.pridejZamestnance(novyZamestnanec);
-                        System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně přidán!\n" + ANSI_RESET);
+                        System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně přidán!" + ANSI_RESET);
                         //noinspection UnusedAssignment
                         vstupJeOk = false;
                     }
@@ -109,14 +111,9 @@ public class Main {
                             System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
                             sc.nextLine();
                         }
-                        boolean odstranen = lokalniDatabaze.odstranZamestnance(ID);
-                        if(odstranen){
-                            System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně odebrán!\n" + ANSI_RESET);
-                        }else{
-                            System.out.println(ANSI_RED + "CHYBA: Zaměstnance se nepodařilo odebrat!\n" + ANSI_RESET);
-                        }
+                        lokalniDatabaze.odstranZamestnance(ID);
                     }else{
-                        System.out.print(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!\n" + ANSI_RESET);
+                        System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
                     }
                     //TODO: odebrání zaměstnance ze všech vazeb
                     break;
@@ -132,14 +129,9 @@ public class Main {
                             System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
                             sc.nextLine();
                         }
-                        Zamestnanec hledanyZamestnanec = lokalniDatabaze.najdiZamestnance(ID);
-                        if(hledanyZamestnanec != null){
-                            System.out.println(hledanyZamestnanec);
-                        }else{
-                            System.out.println(ANSI_RED + "CHYBA: Hledaný zaměstnanec je typu null!\n" + ANSI_RESET);
-                        }
+                        lokalniDatabaze.vypisInfoOZamestnanci(ID);
                     }else{
-                        System.out.print(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!\n" + ANSI_RESET);
+                        System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
                     }
                     //TODO: dopsat statistiky spolupráce (nejspíš v Zamestnanec.java)
                     break;
@@ -159,14 +151,9 @@ public class Main {
                             System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
                             sc.nextLine();
                         }
-                        Zamestnanec hledanyZamestnanec = lokalniDatabaze.najdiZamestnance(ID);
-                        if(hledanyZamestnanec != null){
-                            hledanyZamestnanec.spustDovednost();
-                        }else{
-                            System.out.println(ANSI_RED + "CHYBA: Hledaný zaměstnanec je typu null!\n" + ANSI_RESET);
-                        }
+                        lokalniDatabaze.dovednostZamestnance(ID);
                     }else{
-                        System.out.print(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!\n" + ANSI_RESET);
+                        System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
                     }
                     break;
                 }
@@ -179,7 +166,7 @@ public class Main {
                     break;
                 }
                 case 8: {
-                    //TODO: počty zaměstnanců ve skupinách
+                    lokalniDatabaze.vypisPocty();
                     break;
                 }
                 case 9: {
