@@ -16,13 +16,14 @@ public class LokalniDatabaze {
     }
 
     public void pridejZamestnance(Zamestnanec zamestnanec){
+        //TODO: předělat metodu předání do databáze
         prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
+        System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně přidán!" + ANSI_RESET);
     }
 
     public void odstranZamestnance(int ID){
         if(prvkyDatabaze.containsKey(ID)){
             prvkyDatabaze.remove(ID);
-
             System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně odebrán!" + ANSI_RESET);
         }else{
             System.out.println(ANSI_RED + "CHYBA: Zaměstnance se nepodařilo odebrat!" + ANSI_RESET);
@@ -58,10 +59,9 @@ public class LokalniDatabaze {
                     pocetBezpecaku++;
                 }
             }
-            System.out.println("POČTY ZAMĚSTNANCŮ");
-            System.out.println("Datoví analytici: " + pocetAnalytiku);
-            System.out.println("Bezpečnostní specialisté: " + pocetBezpecaku);
-            System.out.println("Celkem: " + (pocetAnalytiku + pocetBezpecaku));
+            System.out.println(ANSI_YELLOW + "Datoví analytici: " + pocetAnalytiku + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "Bezpečnostní specialisté: " + pocetBezpecaku + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "Celkem: " + (pocetAnalytiku + pocetBezpecaku) + ANSI_RESET);
         }else{
             System.out.print(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!\n" + ANSI_RESET);
         }

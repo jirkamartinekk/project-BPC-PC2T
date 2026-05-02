@@ -26,8 +26,6 @@ public class Main {
                         "\t0 ... [UKONČIT]   program a synchronizovat databázi\n";
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
-        final String ANSI_GREEN = "\u001B[32m";
-        //final String ANSI_YELLOW = "\u001B[33m";
 
         boolean behProgramu = true;
         int vybranaMoznost;
@@ -93,7 +91,6 @@ public class Main {
                                 break;
                         }
                         lokalniDatabaze.pridejZamestnance(novyZamestnanec);
-                        System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně přidán!" + ANSI_RESET);
                         //noinspection UnusedAssignment
                         vstupJeOk = false;
                     }
