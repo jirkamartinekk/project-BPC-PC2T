@@ -25,7 +25,7 @@ public class Main {
                 "SYSTÉM\n" +
                 "\t0 ... [UKONČIT]   program a synchronizovat s databází\n";
 
-        //samotný program
+        //začátek programu
         while(behProgramu){
             System.out.println(VYPIS_MENU);
             System.out.print("Vybraná možnost: ");

@@ -1,12 +1,16 @@
 package default_package;
 
-public class Zamestnanec{
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class Zamestnanec{
     private int id;
     private String jmeno;
     private String prijmeni;
     private int rok_narozeni;
     private String skupina;
     private static int counter = 0;
+    private Map<Zamestnanec, String> spolupracovnici = new HashMap<>();
 
     public Zamestnanec(String jmeno, String prijmeni, int rok_narozeni, String skupina) {
         this.id = counter;
@@ -17,27 +21,29 @@ public class Zamestnanec{
         counter++;
     }
 
-    public int getId() {
+    public int ziskejID() {
         return id;
     }
 
-    public String getJmeno() {
+    public String ziskejJmeno() {
         return jmeno;
     }
 
-    public String getPrijmeni() {
+    public String ziskejPrijmeni() {
         return prijmeni;
     }
 
-    public int getRok_narozeni() {
+    public int ziskejRokNarozeni() {
         return rok_narozeni;
     }
 
-    public String getSkupina() {
+    public String ziskejSkupinu() {
         return skupina;
     }
 
-    public void setSkupina(String skupina) {
+    public void nastavSkupinu(String skupina) {
         System.out.println("Po vytvoreni zaznamu zamestnance jiz neni mozne jeho skupinu zmenit!");
     }
+
+    public abstract void spustDovednost();
 }
