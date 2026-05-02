@@ -7,12 +7,12 @@ public abstract class Zamestnanec{
     private int id;
     private String jmeno;
     private String prijmeni;
-    private int rok_narozeni;
-    private String skupina;
+    private short rok_narozeni;
+    private Byte skupina;
     private static int counter = 0;
     private Map<Zamestnanec, String> spolupracovnici = new HashMap<>();
 
-    public Zamestnanec(String jmeno, String prijmeni, int rok_narozeni, String skupina) {
+    public Zamestnanec(String jmeno, String prijmeni, short rok_narozeni, Byte skupina) {
         this.id = counter;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
@@ -37,7 +37,7 @@ public abstract class Zamestnanec{
         return rok_narozeni;
     }
 
-    public String ziskejSkupinu() {
+    public Byte ziskejSkupinu() {
         return skupina;
     }
 

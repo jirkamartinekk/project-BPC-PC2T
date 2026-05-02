@@ -1,4 +1,5 @@
 package default_package;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -6,6 +7,7 @@ public class Main {
         boolean behProgramu = true;
         int vybranaMoznost;
         Scanner sc = new Scanner(System.in);
+        LokalniDatabaze lokalniDatabaze = new LokalniDatabaze();
         final String VYPIS_MENU =
                 "--- HLAVNÍ MENU --- \n" +
                 "SPRÁVA ZAMĚSTNANCŮ\n" +
@@ -37,6 +39,52 @@ public class Main {
                     //ohlídat si try-catch
                     break;
                 case 1:
+                    String jmeno = "";
+                    String prijmeni = "";
+                    Short rokNarozeni = 0;
+                    Byte skupina = 0;
+                    boolean vstupJeOk = false;
+
+                    while(!vstupJeOk){
+                        try{
+                            System.out.print("Zadej jméno: ");
+                            jmeno = sc.next().trim();
+                            System.out.print("Zadej příjmení: ");
+                            prijmeni = sc.next().trim();
+                            System.out.print("Zadej rok narození: ");
+                            rokNarozeni = sc.nextShort();
+                            System.out.print("Zadej pracovní skupinu - Datový analytik (1) / Bezpečnostní specialista (2): ");
+                            skupina = sc.nextByte();
+                            sc.nextLine(); //vyčištění scanneru, ať to pak nemrdá podmínky níž
+                            if(jmeno.isEmpty() || prijmeni.isEmpty()){
+                                System.out.println("CHYBA: Jméno nebo příjmení jsou prázdné!");
+                            }else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) { //zakazuje vložit do stringu int
+                                System.out.println("CHYBA: Jméno a příjmení nesmí obsahovat čísla!");
+                            }else if (rokNarozeni < 1930 || rokNarozeni > 2026){
+                                System.out.println("CHYBA: Neplatný rok narození!");
+                            }else if(skupina != 1 && skupina != 2){
+                                System.out.println("CHYBA: Skupina musí být ve tvaru 1 nebo 2!");
+                            }else{
+                                vstupJeOk = true;
+                            }
+                        }catch(InputMismatchException e){
+                            System.out.println("CHYBA: Nedodržuješ pravidla zadávání!");
+                            sc.nextLine();
+                        }
+                    }
+                    if(vstupJeOk){
+                        Zamestnanec novyZamestnanec = null;
+                        switch (skupina){
+                            case 1:
+                                novyZamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, skupina);
+                                break;
+                            case 2:
+                                novyZamestnanec = new Bezpecak(jmeno, prijmeni, rokNarozeni, skupina);
+                                break;
+                        }
+                        lokalniDatabaze.pridejZamestnance(novyZamestnanec);
+                        System.out.println("Zaměstnanec byl úspěšně přidán!\n");
+                    }
                     break;
                 case 2:
                     break;
