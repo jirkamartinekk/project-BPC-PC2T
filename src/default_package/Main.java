@@ -3,50 +3,51 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         boolean behProgramu = true;
         int vybranaMoznost;
         Scanner sc = new Scanner(System.in);
         LokalniDatabaze lokalniDatabaze = new LokalniDatabaze();
         final String VYPIS_MENU =
                 "--- HLAVNÍ MENU --- \n" +
-                "SPRÁVA ZAMĚSTNANCŮ\n" +
-                "\t1 ... [PŘIDAT]    zaměstnance\n" +
-                "\t2 ... [ODEBRAT]   zaměstnance (včetně všech vazeb)\n" +
-                "\t3 ... [VYHLEDAT]  zaměstnance (dle ID) a vypsat info\n" +
-                "SPOLUPRÁCE A DOVEDNOSTI\n" +
-                "\t4 ... [ZAPSAT]    spolupráci mezi kolegy\n" +
-                "\t5 ... [DOVEDNOST] zaměstnance\n" +
-                "\t6 ... [STATISTIKY] převažující kvalita spolupráce a zaměstnanec s nejvíce vazbami\n" +
-                "VÝPISY A PŘEHLEDY\n" +
-                "\t7 ... [ABECEDNĚ]  výpis zaměstnanců dle skupin\n" +
-                "\t8 ... [POČTY]     zaměstnanců ve skupinách\n" +
-                "SOUBORY (IMPORT/EXPORT)\n" +
-                "\t9 ... [ULOŽIT]    zaměstnance do souboru\n" +
-                "\t10 .. [NAČÍST]    zaměstnance ze souboru\n" +
-                "SYSTÉM\n" +
-                "\t0 ... [UKONČIT]   program a synchronizovat s databází\n";
+                        "SPRÁVA ZAMĚSTNANCŮ\n" +
+                        "\t1 ... [PŘIDAT]    zaměstnance\n" +
+                        "\t2 ... [ODEBRAT]   zaměstnance\n" +
+                        "\t3 ... [VYHLEDAT]  zaměstnance (dle ID) a vypsat info\n" +
+                        "SPOLUPRÁCE A DOVEDNOSTI\n" +
+                        "\t4 ... [ZAPSAT]    spolupráci mezi kolegy\n" +
+                        "\t5 ... [DOVEDNOST] zaměstnance\n" +
+                        "\t6 ... [STATISTIKY] převažující kvalita spolupráce a zaměstnanec s nejvíce vazbami\n" +
+                        "VÝPISY A PŘEHLEDY\n" +
+                        "\t7 ... [ABECEDNĚ]  výpis zaměstnanců dle skupin\n" +
+                        "\t8 ... [POČTY]     zaměstnanců ve skupinách\n" +
+                        "SOUBORY (IMPORT/EXPORT)\n" +
+                        "\t9 ... [ULOŽIT]    zaměstnance do souboru\n" +
+                        "\t10 .. [NAČÍST]    zaměstnance ze souboru\n" +
+                        "SYSTÉM\n" +
+                        "\t0 ... [UKONČIT]   program a synchronizovat s databází\n";
 
         //začátek programu
-        while(behProgramu){
+        while (behProgramu) {
             System.out.println(VYPIS_MENU);
             System.out.print("Vybraná možnost: ");
             vybranaMoznost = sc.nextShort();
-            switch (vybranaMoznost){
-                case 0:
+            switch (vybranaMoznost) {
+                case 0: {
                     behProgramu = false;
-                    //kód pro uložení dat do databáze přes SQL
-                    //ohlídat si try-catch
+                    //TODO: kód pro uložení dat do databáze přes SQL
+                    //TODO: ohlídat si try-catch*/
                     break;
-                case 1:
+                }
+                case 1: {
                     String jmeno = "";
                     String prijmeni = "";
                     Short rokNarozeni = 0;
                     Byte skupina = 0;
                     boolean vstupJeOk = false;
 
-                    while(!vstupJeOk){
-                        try{
+                    while (!vstupJeOk) {
+                        try {
                             System.out.print("Zadej jméno: ");
                             jmeno = sc.next().trim();
                             System.out.print("Zadej příjmení: ");
@@ -56,25 +57,25 @@ public class Main {
                             System.out.print("Zadej pracovní skupinu - Datový analytik (1) / Bezpečnostní specialista (2): ");
                             skupina = sc.nextByte();
                             sc.nextLine(); //vyčištění scanneru, ať to pak nemrdá podmínky níž
-                            if(jmeno.isEmpty() || prijmeni.isEmpty()){
+                            if (jmeno.isEmpty() || prijmeni.isEmpty()) {
                                 System.out.println("CHYBA: Jméno nebo příjmení jsou prázdné!");
-                            }else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) { //zakazuje vložit do stringu int
+                            } else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) { //zakazuje vložit do stringu int
                                 System.out.println("CHYBA: Jméno a příjmení nesmí obsahovat čísla!");
-                            }else if (rokNarozeni < 1930 || rokNarozeni > 2026){
+                            } else if (rokNarozeni < 1930 || rokNarozeni > 2026) {
                                 System.out.println("CHYBA: Neplatný rok narození!");
-                            }else if(skupina != 1 && skupina != 2){
+                            } else if (skupina != 1 && skupina != 2) {
                                 System.out.println("CHYBA: Skupina musí být ve tvaru 1 nebo 2!");
-                            }else{
+                            } else {
                                 vstupJeOk = true;
                             }
-                        }catch(InputMismatchException e){
-                            System.out.println("CHYBA: Nedodržuješ pravidla zadávání!");
+                        } catch (InputMismatchException e) {
+                            System.out.println("CHYBA: Nedodržuješ syntaxi!");
                             sc.nextLine();
                         }
                     }
-                    if(vstupJeOk){
+                    if (vstupJeOk) {
                         Zamestnanec novyZamestnanec = null;
-                        switch (skupina){
+                        switch (skupina) {
                             case 1:
                                 novyZamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, skupina);
                                 break;
@@ -84,26 +85,64 @@ public class Main {
                         }
                         lokalniDatabaze.pridejZamestnance(novyZamestnanec);
                         System.out.println("Zaměstnanec byl úspěšně přidán!\n");
+                        vstupJeOk = false;
                     }
                     break;
-                case 2:
+                }
+                case 2: {
+                    int ID = 0;
+                    boolean vstupJeOk = false;
+                    while (!vstupJeOk) {
+                        try {
+                            System.out.print("Zadejte ID zaměstnance: ");
+                            ID = sc.nextInt();
+                            sc.nextLine();
+                            if (!(ID < lokalniDatabaze.pocetPrvkuDatabaze()) || !(ID > lokalniDatabaze.pocetPrvkuDatabaze())) {
+                                System.out.println("Přesáhl jsi počet prvků v databázi!\n");
+                            } else {
+                                vstupJeOk = true;
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("CHYBA: Nedodržuješ syntaxi!");
+                            sc.nextLine();
+                        }
+                    }
+                    if (vstupJeOk) {
+                        boolean odstranen = lokalniDatabaze.odstranZamestnance(ID);
+                        if(odstranen){
+                            System.out.println("Zaměstnanec byl úspěšně odebrán!\n");
+                        }else{
+                            System.out.println("CHYBA: Zaměstnance se nepodařilo odebrat!\n");
+                        }
+                        vstupJeOk = false;
+                    }
+                    //TODO: odebrání zaměstnance ze všech vazeb
                     break;
-                case 3:
+                }
+                case 3: {
                     break;
-                case 4:
+                }
+                case 4: {
                     break;
-                case 5:
+                }
+                case 5: {
                     break;
-                case 6:
+                }
+                case 6: {
                     break;
-                case 7:
+                }
+                case 7: {
                     break;
-                case 8:
+                }
+                case 8: {
                     break;
-                case 9:
+                }
+                case 9: {
                     break;
-                case 10:
+                }
+                case 10: {
                     break;
+                }
             }
         }
     }

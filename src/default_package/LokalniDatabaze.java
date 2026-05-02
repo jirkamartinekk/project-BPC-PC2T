@@ -14,11 +14,20 @@ public class LokalniDatabaze {
         prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
     }
 
-    public void odstranZamestnance(Zamestnanec zamestnanec){
-        prvkyDatabaze.remove(zamestnanec.ziskejID());
+    public boolean odstranZamestnance(int ID){
+        if(prvkyDatabaze.containsKey(ID)){
+            prvkyDatabaze.remove(ID);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public Zamestnanec najdiZamestnance(Zamestnanec zamestnanec){
         return prvkyDatabaze.get(zamestnanec.ziskejID());
+    }
+
+    public int pocetPrvkuDatabaze(){
+        return prvkyDatabaze.size();
     }
 }
