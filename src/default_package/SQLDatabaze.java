@@ -40,7 +40,7 @@ public class SQLDatabaze {
             ps.setString(2, pracovnik.ziskejJmeno());
             ps.setString(3, pracovnik.ziskejPrijmeni());
             ps.setInt(4, pracovnik.ziskejRokNarozeni());
-            ps.setString(5, pracovnik.ziskejSkupinu());
+            ps.setByte(5, pracovnik.ziskejSkupinu());
 
             ps.executeUpdate();
         } catch (SQLException e) {
