@@ -1,3 +1,4 @@
+package default_package;
 import java.util.Scanner;
 
 public class Main {
@@ -32,7 +33,8 @@ public class Main {
             switch (vybranaMoznost){
                 case 0:
                     behProgramu = false;
-                    System.out.print("Program byl úspěšně ukončen'");
+                    //kód pro uložení dat do databáze přes SQL
+                    //ohlídat si try-catch
                     break;
                 case 1:
                     break;
