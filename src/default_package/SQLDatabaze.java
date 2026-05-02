@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Databaze {
+public class SQLDatabaze {
     private Connection pripojeni = null;
 
     public boolean pripojDatabazi(){
