@@ -1,6 +1,5 @@
 package default_package;
 import java.util.InputMismatchException;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -28,7 +27,7 @@ public class Main {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
         final String ANSI_GREEN = "\u001B[32m";
-        final String ANSI_YELLOW = "\u001B[33m";
+        //final String ANSI_YELLOW = "\u001B[33m";
 
         boolean behProgramu = true;
         int vybranaMoznost;
