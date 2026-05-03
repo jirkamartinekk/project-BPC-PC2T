@@ -11,7 +11,7 @@ public class Analytik extends Zamestnanec{
     }
 
     public void spustDovednost(){
-        //TODO: napsat funkci pro vraceni spolupracovnika s nejvice spolecnymi spolupracovniky
+        //TODO: napsat funkci pro vraceni spolupracovnika s nejvice spolecnymi spolupracovniky - MIKEŠ
         System.out.println("Jsem Analytik!");
     }
 

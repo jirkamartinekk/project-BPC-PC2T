@@ -47,7 +47,7 @@ public class LokalniDatabaze {
         }
     }
 
-    public void vypisPocty(){
+    public void vypisPoctySkupin(){
         int pocetAnalytiku = 0;
         int pocetBezpecaku = 0;
         if(pocetPrvkuDatabaze() > 0){

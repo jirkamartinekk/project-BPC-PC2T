@@ -2,8 +2,6 @@ package default_package;
 
 import java.sql.*;
 
-//TODO: Jiřík opět změnil skupinu na string :D RE: T-T
-
 public class SQLDatabaze {
     private Connection pripojeni = null;
 

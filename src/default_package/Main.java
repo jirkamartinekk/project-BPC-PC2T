@@ -166,7 +166,7 @@ public class Main {
                     break;
                 }
                 case 8: {
-                    lokalniDatabaze.vypisPocty();
+                    lokalniDatabaze.vypisPoctySkupin();
                     break;
                 }
                 case 9: {

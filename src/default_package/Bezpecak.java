@@ -11,7 +11,7 @@ public class Bezpecak extends Zamestnanec{
     }
 
     public void spustDovednost(){
-        //TODO: napsat funkci pro vypocet prumeru urovne spoluprace
+        //TODO: napsat funkci pro vypocet prumeru urovne spoluprace - MIKEŠ
         System.out.println("Jsem Bezpečák!");
     }
 }
