@@ -162,7 +162,7 @@ public class Main {
                     break;
                 }
                 case 7: {
-                    //TODO: abecední výpis lidí ve skupinách
+                    lokalniDatabaze.vypisSkupinuAbecednePrijmeni();
                     break;
                 }
                 case 8: {

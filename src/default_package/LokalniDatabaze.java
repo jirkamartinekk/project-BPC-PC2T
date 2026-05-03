@@ -1,7 +1,6 @@
 package default_package;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class LokalniDatabaze {
     final String ANSI_RESET = "\u001B[0m";
@@ -71,11 +70,21 @@ public class LokalniDatabaze {
         return prvkyDatabaze.size();
     }
 
-    //TODO: vypsat dementy dle abecedy ve skupinách
-/*    public void vypisSkupinuAbecednePrijmeni(){
-        Set <Integer> klicePrvku = prvkyDatabaze.keySet();
-        for(Integer klic : klicePrvku){
-            System.out.printf("");
+    public void vypisSkupinuAbecednePrijmeni(){
+        List<Zamestnanec> seznamZamestnancu = new ArrayList<>(prvkyDatabaze.values());
+        Collections.sort(seznamZamestnancu);
+        System.out.println("Seznam pracovníků");
+        System.out.println("\tDatoví analytici");
+        for(Zamestnanec zamestnanec : seznamZamestnancu){
+            if(zamestnanec instanceof Analytik){
+                System.out.println("\t\t" + zamestnanec);
+            }
         }
-    }*/
+        System.out.println("\tBezpečnostní specialisté");
+        for(Zamestnanec zamestnanec : seznamZamestnancu){
+            if(zamestnanec instanceof Bezpecak){
+                System.out.println("\t\t" + zamestnanec);
+            }
+        }
+    }
 }

@@ -3,7 +3,7 @@ package default_package;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Zamestnanec{
+public abstract class Zamestnanec implements Comparable<Zamestnanec>{
     private int id;
     private String jmeno;
     private String prijmeni;
@@ -83,5 +83,14 @@ public abstract class Zamestnanec{
     @Override
     public int hashCode(){
         return Integer.hashCode(id); //musí se zvolit pole, které se nemění | je použit Integer wrapper
+    }
+
+    @Override
+    public int compareTo(Zamestnanec kolega){
+        int compare = this.prijmeni.compareToIgnoreCase(kolega.prijmeni);
+        if (compare == 0){
+            return this.jmeno.compareToIgnoreCase(kolega.jmeno); //pro případ, že ty 2 volové mají stejný příjmení
+        }
+        return compare;
     }
 }
