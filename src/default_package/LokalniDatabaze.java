@@ -153,27 +153,29 @@ public class LokalniDatabaze {
     }
 
     public void ulozZamestnanceDoSouboru(int id, String cesta) {
-        Zamestnanec z = prvkyDatabaze.get(id);
+        Zamestnanec zamestnanec = prvkyDatabaze.get(id);
 
-        if (z == null) {
-            System.out.println("CHYBA: Zamestnanec neexistuje!");
+        if (zamestnanec == null) {
+            System.out.println("CHYBA: Zaměstnanec neexistuje!");
             return;
         }
 
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(cesta), StandardCharsets.UTF_8))) {
 
-            String radek = z.ziskejID() + ";" +
-                    z.ziskejJmeno() + ";" +
-                    z.ziskejPrijmeni() + ";" +
-                    z.ziskejRokNarozeni() + ";" +
-                    z.ziskejSkupinu();
+            String radek = zamestnanec.ziskejID() + ";" +
+                    zamestnanec.ziskejJmeno() + ";" +
+                    zamestnanec.ziskejPrijmeni() + ";" +
+                    zamestnanec.ziskejRokNarozeni() + ";" +
+                    zamestnanec.ziskejSkupinu();
 
             writer.write(radek);
             writer.newLine();
 
+            System.out.println(("Zaměstnanec úspěšně uložen do souboru!"));
+
         } catch (IOException e) {
-            System.out.println("CHYBA: Nepodarilo se ulozit!");
+            System.out.println("CHYBA: Nepodařilo se uložit!");
         }
     }
 
@@ -184,14 +186,14 @@ public class LokalniDatabaze {
             String radek = reader.readLine();
 
             if (radek == null || radek.isEmpty()) {
-                System.out.println("CHYBA: Soubor je prazdny!");
+                System.out.println("CHYBA: Soubor je prázdný!");
                 return;
             }
 
             String[] casti = radek.split(";");
 
             if (casti.length != 5) {
-                System.out.println("CHYBA: Spatny format souboru!");
+                System.out.println("CHYBA: Špatný formát souboru!");
                 return;
             }
 
@@ -208,16 +210,16 @@ public class LokalniDatabaze {
             } else if (skupina.equals("Bezpečnostní specialista")) {
                 zamestnanec = new Bezpecak(id, jmeno, prijmeni, rok, skupina);
             } else {
-                System.out.println("CHYBA: Neznama skupina!");
+                System.out.println("CHYBA: Neznámá skupina!");
                 return;
             }
 
             prvkyDatabaze.put(id, zamestnanec);
 
-            System.out.println("Zamestnanec byl uspesne nacten!");
+            System.out.println("Zaměstnanec byl úspěsně načten!");
 
         } catch (IOException e) {
-            System.out.println("CHYBA: Nepodarilo se nacist soubor!");
+            System.out.println("CHYBA: Nepodařilo se načíst soubor!");
         }
     }
 }
