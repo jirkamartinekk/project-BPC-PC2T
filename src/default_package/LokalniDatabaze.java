@@ -14,11 +14,22 @@ public class LokalniDatabaze {
         prvkyDatabaze = new HashMap<>();
     }
 
-    public void pridejZamestnance(Zamestnanec zamestnanec){
-        //TODO: předělat metodu předání do databáze
-
-        prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
-        System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně přidán!" + ANSI_RESET);
+    public void pridejZamestnance(String jmeno, String prijmeni, short rokNarozeni, Byte skupina){
+        try{
+            Zamestnanec zamestnanec = null;
+            switch (skupina) {
+                case 1:
+                    zamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, "Datový analytik");
+                    break;
+                case 2:
+                    zamestnanec = new Bezpecak(jmeno, prijmeni, rokNarozeni, "Bezpečnostní specialista");
+                    break;
+            }
+            prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
+            System.out.println(ANSI_GREEN + "Zaměstnanec byl přidán!" + ANSI_RESET);
+        }catch (Exception e){
+            System.out.println(ANSI_RED + "CHYBA: Zaměstnance se nepodařilo přidat!" + ANSI_RESET);
+        }
     }
 
     public void odstranZamestnance(int ID){
@@ -59,9 +70,9 @@ public class LokalniDatabaze {
                     pocetBezpecaku++;
                 }
             }
-            System.out.println(ANSI_YELLOW + "Datoví analytici: " + pocetAnalytiku + ANSI_RESET);
-            System.out.println(ANSI_YELLOW + "Bezpečnostní specialisté: " + pocetBezpecaku + ANSI_RESET);
-            System.out.println(ANSI_YELLOW + "Celkem: " + (pocetAnalytiku + pocetBezpecaku) + ANSI_RESET);
+            System.out.println("Datoví analytici: " + ANSI_YELLOW + pocetAnalytiku + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "Bezpečnostní specialisté: " + ANSI_YELLOW + pocetBezpecaku + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "Celkem: " + ANSI_YELLOW + (pocetAnalytiku + pocetBezpecaku) + ANSI_RESET);
         }else{
             System.out.print(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!\n" + ANSI_RESET);
         }

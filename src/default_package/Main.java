@@ -3,6 +3,37 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+    private static boolean jeVstupValidniPridaniZamestnance(String jmeno, String prijmeni, short rokNarozeni, byte skupina){
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+
+        if (jmeno.isEmpty() || prijmeni.isEmpty()) {
+            System.out.println(ANSI_RED + "CHYBA: Jméno nebo příjmení jsou prázdné!" + ANSI_RESET);
+            return false;
+        } else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) { //zakazuje vložit do stringu int
+            System.out.println(ANSI_RED + "CHYBA: Jméno a příjmení nesmí obsahovat čísla!" + ANSI_RESET);
+            return false;
+        } else if (rokNarozeni < 1930 || rokNarozeni > 2026) {
+            System.out.println(ANSI_RED + "CHYBA: Neplatný rok narození!" + ANSI_RESET);
+            return false;
+        } else if (skupina != 1 && skupina != 2) {
+            System.out.println(ANSI_RED + "CHYBA: Skupina musí být ve tvaru 1 nebo 2!" + ANSI_RESET);
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean jeVstupValidniID(int pocetPrvkuDatabaze){
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+
+        if(pocetPrvkuDatabaze <= 0){
+            System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         //TODO: načtení dat z SQL databáze - Mám funkci na načtení a vytvoření objektů, potřebuju pomoct jak to propojit s lokalni db viz SQLDatabaze - nacistZamestnance()
         //TODO: dopsat podmínky pro správné načtení int, str atd.
@@ -64,73 +95,50 @@ public class Main {
                             System.out.print("Zadej pracovní skupinu (číslem) - Datový analytik (1) / Bezpečnostní specialista (2): ");
                             skupina = sc.nextByte();
                             sc.nextLine(); //vyčištění scanneru, ať to pak nemrdá podmínky níž
-
-                            if (jmeno.isEmpty() || prijmeni.isEmpty()) {
-                                System.out.println(ANSI_RED + "CHYBA: Jméno nebo příjmení jsou prázdné!" + ANSI_RESET);
-                            } else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) { //zakazuje vložit do stringu int
-                                System.out.println(ANSI_RED + "CHYBA: Jméno a příjmení nesmí obsahovat čísla!" + ANSI_RESET);
-                            } else if (rokNarozeni < 1930 || rokNarozeni > 2026) {
-                                System.out.println(ANSI_RED + "CHYBA: Neplatný rok narození!" + ANSI_RESET);
-                            } else if (skupina != 1 && skupina != 2) {
-                                System.out.println(ANSI_RED + "CHYBA: Skupina musí být ve tvaru 1 nebo 2!" + ANSI_RESET);
-                            } else {
-                                vstupJeOk = true;
-                            }
-                        } catch (InputMismatchException e) {
+                        }catch (InputMismatchException e) {
                             System.out.println(ANSI_RED + "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
                             sc.nextLine();
                         }
+                        vstupJeOk = jeVstupValidniPridaniZamestnance(jmeno, prijmeni, rokNarozeni, skupina);
                     }
                     //noinspection ConstantValue
                     if (vstupJeOk) {
-                        Zamestnanec novyZamestnanec = null;
-                        switch (skupina) {
-                            case 1:
-                                novyZamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, "Datový analytik");
-                                break;
-                            case 2:
-                                novyZamestnanec = new Bezpecak(jmeno, prijmeni, rokNarozeni, "Bezpečnostní specialista");
-                                break;
-                        }
-                        lokalniDatabaze.pridejZamestnance(novyZamestnanec);
-                        //noinspection UnusedAssignment
-                        vstupJeOk = false;
+                        lokalniDatabaze.pridejZamestnance(jmeno, prijmeni, rokNarozeni, skupina);
                     }
                     break;
                 }
                 case 2: {
                     int ID = 0;
-                    if(pocetPrvkuDatabaze > 0){
-                        try {
-                            //System.out.println("Rozsah prvků databáze: " + pocetPrvkuDatabaze);
-                            System.out.print("Zadejte ID zaměstnance: ");
-                            ID = sc.nextInt();
-                            sc.nextLine();
-                        } catch (InputMismatchException e) {
-                            System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
-                            sc.nextLine();
-                        }
+                    boolean vstupJeOk;
+                    try {
+                        System.out.print("Zadejte ID zaměstnance: ");
+                        ID = sc.nextInt();
+                        sc.nextLine();
+                    } catch (InputMismatchException e) {
+                        System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
+                        sc.nextLine();
+                    }
+                    vstupJeOk = jeVstupValidniID(pocetPrvkuDatabaze);
+                    if(vstupJeOk){
                         lokalniDatabaze.odstranZamestnance(ID);
-                    }else{
-                        System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
                     }
                     //TODO: odebrání zaměstnance ze všech vazeb
                     break;
                 }
                 case 3: {
                     int ID = 0;
-                    if(pocetPrvkuDatabaze > 0){
-                        try {
-                            System.out.print("Zadejte ID zaměstnance: ");
-                            ID = sc.nextInt();
-                            sc.nextLine();
-                        } catch (InputMismatchException e) {
-                            System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
-                            sc.nextLine();
-                        }
+                    boolean vstupJeOk;
+                    try {
+                        System.out.print("Zadejte ID zaměstnance: ");
+                        ID = sc.nextInt();
+                        sc.nextLine();
+                    } catch (InputMismatchException e) {
+                        System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
+                        sc.nextLine();
+                    }
+                    vstupJeOk = jeVstupValidniID(pocetPrvkuDatabaze);
+                    if(vstupJeOk){
                         lokalniDatabaze.vypisInfoOZamestnanci(ID);
-                    }else{
-                        System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
                     }
                     //TODO: dopsat statistiky spolupráce (nejspíš v Zamestnanec.java)
                     break;
@@ -141,18 +149,18 @@ public class Main {
                 }
                 case 5: {
                     int ID = 0;
-                    if(pocetPrvkuDatabaze > 0){
-                        try {
-                            System.out.print("Zadejte ID zaměstnance: ");
-                            ID = sc.nextInt();
-                            sc.nextLine();
-                        } catch (InputMismatchException e) {
-                            System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
-                            sc.nextLine();
-                        }
+                    boolean vstupJeOk;
+                    try {
+                        System.out.print("Zadejte ID zaměstnance: ");
+                        ID = sc.nextInt();
+                        sc.nextLine();
+                    } catch (InputMismatchException e) {
+                        System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
+                        sc.nextLine();
+                    }
+                    vstupJeOk = jeVstupValidniID(pocetPrvkuDatabaze);
+                    if(vstupJeOk){
                         lokalniDatabaze.dovednostZamestnance(ID);
-                    }else{
-                        System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
                     }
                     break;
                 }

@@ -14,20 +14,20 @@ public abstract class Zamestnanec implements Comparable<Zamestnanec>{
     //TODO: vymyslet spojení na kolegy (níže je varianta - vylepšit)
     //private Map<Zamestnanec, String> spolupracovnici = new HashMap<>();
 
-    public Zamestnanec(String jmeno, String prijmeni, short rok_narozeni, String skupina) {
+    public Zamestnanec(String jmeno, String prijmeni, short rokNarozeni, String skupina) {
         this.id = counter;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
-        this.rok_narozeni = rok_narozeni;
+        this.rok_narozeni = rokNarozeni;
         this.skupina = skupina;
         counter++;
     }
 
-    public Zamestnanec(int id, String jmeno, String prijmeni, short rok_narozeni, String skupina) {
+    public Zamestnanec(int id, String jmeno, String prijmeni, short rokNarozeni, String skupina) {
         this.id = id;
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
-        this.rok_narozeni = rok_narozeni;
+        this.rok_narozeni = rokNarozeni;
         this.skupina = skupina;
         counter++;
     }
