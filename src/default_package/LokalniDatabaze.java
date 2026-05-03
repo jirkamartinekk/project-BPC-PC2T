@@ -1,6 +1,8 @@
 package default_package;
 
+import java.io.*;
 import java.util.*;
+import java.nio.charset.StandardCharsets;
 
 public class LokalniDatabaze {
     final String ANSI_RESET = "\u001B[0m";
@@ -147,6 +149,75 @@ public class LokalniDatabaze {
             System.out.println(ANSI_GREEN + "Spolupráce byla úspěšně přidána!" + ANSI_RESET);
         }else{
             System.out.println(ANSI_RED + "CHYBA: Jedno z ID neexistuje!" + ANSI_RESET);
+        }
+    }
+
+    public void ulozZamestnanceDoSouboru(int id, String cesta) {
+        Zamestnanec z = prvkyDatabaze.get(id);
+
+        if (z == null) {
+            System.out.println("CHYBA: Zamestnanec neexistuje!");
+            return;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(new FileOutputStream(cesta), StandardCharsets.UTF_8))) {
+
+            String radek = z.ziskejID() + ";" +
+                    z.ziskejJmeno() + ";" +
+                    z.ziskejPrijmeni() + ";" +
+                    z.ziskejRokNarozeni() + ";" +
+                    z.ziskejSkupinu();
+
+            writer.write(radek);
+            writer.newLine();
+
+        } catch (IOException e) {
+            System.out.println("CHYBA: Nepodarilo se ulozit!");
+        }
+    }
+
+    public void nactiZamestnanceZeSouboru(String cesta) {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new FileInputStream(cesta), StandardCharsets.UTF_8))) {
+
+            String radek = reader.readLine();
+
+            if (radek == null || radek.isEmpty()) {
+                System.out.println("CHYBA: Soubor je prazdny!");
+                return;
+            }
+
+            String[] casti = radek.split(";");
+
+            if (casti.length != 5) {
+                System.out.println("CHYBA: Spatny format souboru!");
+                return;
+            }
+
+            int id = Integer.parseInt(casti[0]);
+            String jmeno = casti[1];
+            String prijmeni = casti[2];
+            short rok = Short.parseShort(casti[3]);
+            String skupina = casti[4];
+
+            Zamestnanec zamestnanec;
+
+            if (skupina.equals("Datový analytik")) {
+                zamestnanec = new Analytik(id, jmeno, prijmeni, rok, skupina);
+            } else if (skupina.equals("Bezpečnostní specialista")) {
+                zamestnanec = new Bezpecak(id, jmeno, prijmeni, rok, skupina);
+            } else {
+                System.out.println("CHYBA: Neznama skupina!");
+                return;
+            }
+
+            prvkyDatabaze.put(id, zamestnanec);
+
+            System.out.println("Zamestnanec byl uspesne nacten!");
+
+        } catch (IOException e) {
+            System.out.println("CHYBA: Nepodarilo se nacist soubor!");
         }
     }
 }

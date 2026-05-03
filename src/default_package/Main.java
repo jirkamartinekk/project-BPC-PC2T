@@ -1,4 +1,8 @@
 package default_package;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -50,6 +54,48 @@ public class Main {
         return true;
     }
 
+    private static boolean jeVstupValidniIDCesta(Integer id, String cesta, int pocetPrvkuDatabaze){
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+
+        if(id == null || id >= pocetPrvkuDatabaze){
+            System.out.println(ANSI_RED + "CHYBA: Nebylo zadáno ID!" + ANSI_RESET);
+            return false;
+        }
+        if(cesta == null){
+            System.out.println(ANSI_RED + "CHYBA: Nebyla zadána cesta!" + ANSI_RESET);
+            return false;
+        }
+
+        return true;
+    }
+
+    private static boolean jeVstupValidniSoubor(String cesta) {
+        if (cesta == null || cesta.isBlank()) {
+            System.out.println("CHYBA: cesta je prazdná");
+            return false;
+        }
+
+        Path path = Paths.get(cesta);
+
+        if (!Files.exists(path)) {
+            System.out.println("CHYBA: cesta neexistuje");
+            return false;
+        }
+
+        if (!Files.isRegularFile(path)) {
+            System.out.println("CHYBA: není to soubor");
+            return false;
+        }
+
+        if (!Files.isReadable(path)) {
+            System.out.println("CHYBA: soubor nelze číst");
+            return false;
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
         //TODO: načtení dat z SQL databáze - Mám funkci na načtení a vytvoření objektů, potřebuju pomoct jak to propojit s lokalni db viz SQLDatabaze - nacistZamestnance()
 
@@ -89,6 +135,7 @@ public class Main {
             System.out.print("Vybraná možnost: ");
             try{
                 vybranaMoznost = sc.nextShort();
+                sc.nextLine();
                 switch (vybranaMoznost) {
                     case 0: {
                         behProgramu = false;
@@ -215,13 +262,37 @@ public class Main {
                         break;
                     }
                     case 9: {
-                        //TODO: uložit zaměstnance do souboru - MIKEŠ
+                        Integer id = null;
+                        String cesta = "data/";
+
+                        System.out.println("Zadejte ID zamestnance: ");
+                        id = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.println("Zadejte nazev souboru: ");
+                        cesta += sc.nextLine();
+
+                        if (jeVstupValidniIDCesta(id, cesta, lokalniDatabaze.pocetPrvkuDatabaze())) {
+                            lokalniDatabaze.ulozZamestnanceDoSouboru(id, cesta);
+                        }
+
                         break;
                     }
                     case 10: {
-                        //TODO: načíst zaměstnance ze souboru - MIKEŠ
+                        String cesta = "data/";
+
+                        System.out.println("Zadejte nazev souboru: ");
+                        cesta += sc.nextLine();
+
+                        if(jeVstupValidniSoubor(cesta)) {
+                            lokalniDatabaze.nactiZamestnanceZeSouboru(cesta);
+                        }
+
                         break;
                     }
+                    default:
+                        System.out.println("Tak seš píča? Neumíš snad počítat do 10?!");
+                        break;
                 }
             }catch (InputMismatchException e){
                 System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
