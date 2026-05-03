@@ -82,9 +82,9 @@ public class LokalniDatabaze {
                     pocetBezpecaku++;
                 }
             }
-            System.out.println("Datoví analytici: " + ANSI_YELLOW + pocetAnalytiku + ANSI_RESET);
-            System.out.println(ANSI_YELLOW + "Bezpečnostní specialisté: " + ANSI_YELLOW + pocetBezpecaku + ANSI_RESET);
-            System.out.println(ANSI_YELLOW + "Celkem: " + ANSI_YELLOW + (pocetAnalytiku + pocetBezpecaku) + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "Datoví analytici: " + pocetAnalytiku + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "Bezpečnostní specialisté: "+ pocetBezpecaku + ANSI_RESET);
+            System.out.println(ANSI_YELLOW + "Celkem: " + (pocetAnalytiku + pocetBezpecaku) + ANSI_RESET);
         }else{
             System.out.print(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!\n" + ANSI_RESET);
         }
