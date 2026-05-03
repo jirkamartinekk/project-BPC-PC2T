@@ -16,6 +16,7 @@ public class LokalniDatabaze {
 
     public void pridejZamestnance(Zamestnanec zamestnanec){
         //TODO: předělat metodu předání do databáze
+
         prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
         System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně přidán!" + ANSI_RESET);
     }

@@ -6,7 +6,6 @@ public class Main {
     public static void main(String[] args) {
         //TODO: načtení dat z SQL databáze - Mám funkci na načtení a vytvoření objektů, potřebuju pomoct jak to propojit s lokalni db viz SQLDatabaze - nacistZamestnance()
         //TODO: dopsat podmínky pro správné načtení int, str atd.
-
         SQLDatabaze sqlDB = new SQLDatabaze();
 
         final String VYPIS_MENU =
@@ -64,8 +63,8 @@ public class Main {
                             rokNarozeni = sc.nextShort();
                             System.out.print("Zadej pracovní skupinu (číslem) - Datový analytik (1) / Bezpečnostní specialista (2): ");
                             skupina = sc.nextByte();
-
                             sc.nextLine(); //vyčištění scanneru, ať to pak nemrdá podmínky níž
+
                             if (jmeno.isEmpty() || prijmeni.isEmpty()) {
                                 System.out.println(ANSI_RED + "CHYBA: Jméno nebo příjmení jsou prázdné!" + ANSI_RESET);
                             } else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) { //zakazuje vložit do stringu int
