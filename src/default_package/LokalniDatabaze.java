@@ -48,7 +48,6 @@ public class LokalniDatabaze {
     public void vypisInfoOZamestnanci(int ID){
         Zamestnanec hledanyZamestnanec = prvkyDatabaze.get(ID);
         if(hledanyZamestnanec != null){
-            //System.out.println(ANSI_YELLOW + hledanyZamestnanec + ANSI_RESET);
             System.out.printf(ANSI_YELLOW + "*ID:%d\t\tJMÉNO:%s\t\tPŘÍJMENÍ:%s\t\tROK NAROZENÍ:%d\t\tSKUPINA:%s" + ANSI_RESET, hledanyZamestnanec.ziskejID(), hledanyZamestnanec.ziskejJmeno(), hledanyZamestnanec.ziskejPrijmeni(), hledanyZamestnanec.ziskejRokNarozeni(), hledanyZamestnanec.ziskejSkupinu());
             System.out.println(ANSI_YELLOW + "\n\tÚROVEŇ SPOLUPRÁCE" + ANSI_RESET);
             if(hledanyZamestnanec.pristupKeSpolupracovnikum().isEmpty()){
