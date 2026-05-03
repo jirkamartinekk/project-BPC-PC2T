@@ -33,7 +33,11 @@ public class LokalniDatabaze {
     }
 
     public void odstranZamestnance(int ID){
+        Zamestnanec mazanyZamestnanec = prvkyDatabaze.get(ID);
         if(prvkyDatabaze.containsKey(ID)){
+            for(Zamestnanec kolega : mazanyZamestnanec.pristupKeSpolupracovnikum().keySet()){
+                kolega.pristupKeSpolupracovnikum().remove(mazanyZamestnanec); //u kolegů nemaže na základě ID, ale typu Zamestnanec
+            }
             prvkyDatabaze.remove(ID);
             System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně odebrán!" + ANSI_RESET);
         }else{
@@ -44,7 +48,13 @@ public class LokalniDatabaze {
     public void vypisInfoOZamestnanci(int ID){
         Zamestnanec hledanyZamestnanec = prvkyDatabaze.get(ID);
         if(hledanyZamestnanec != null){
-            System.out.println(ANSI_YELLOW + hledanyZamestnanec + ANSI_RESET);
+            //System.out.println(ANSI_YELLOW + hledanyZamestnanec + ANSI_RESET);
+            System.out.printf("*ID:%d\t\tJMÉNO:%s\t\tPŘÍJMENÍ:%s\t\tROK NAROZENÍ:%d\t\tSKUPINA:%s", hledanyZamestnanec.ziskejID(), hledanyZamestnanec.ziskejJmeno(), hledanyZamestnanec.ziskejPrijmeni(), hledanyZamestnanec.ziskejRokNarozeni(), hledanyZamestnanec.ziskejSkupinu());
+            System.out.println("\n\tÚROVEŇ SPOLUPRÁCE");
+            for(Zamestnanec kolega : hledanyZamestnanec.pristupKeSpolupracovnikum().keySet()){
+                System.out.println("\t\t*" + kolega.pristupKeSpolupracovnikum().values());
+                //kolega.pristupKeSpolupracovnikum().values();
+            }
         }else{
             System.out.println(ANSI_RED + "CHYBA: Hledaný zaměstnanec je typu null!" + ANSI_RESET);
         }
@@ -97,6 +107,38 @@ public class LokalniDatabaze {
             if(zamestnanec instanceof Bezpecak){
                 System.out.println(ANSI_YELLOW + "\t\t" + zamestnanec + ANSI_RESET);
             }
+        }
+    }
+
+    public void pridejSpolupraci(int IDa, int IDb, byte popisVstup){
+        String popis = "";
+        switch (popisVstup){
+            case 1:
+                popis = "Špatná";
+                break;
+            case 2:
+                popis = "Průměrně dobrá";
+                break;
+        }
+        Zamestnanec zamestnanecA = null;
+        Zamestnanec zamestnanecB = null;
+        if(IDa == IDb){
+            System.out.println(ANSI_RED + "CHYBA: Nelze propojit identické zaměstnance!" + ANSI_RESET);
+            return;
+        }
+        if(prvkyDatabaze.containsKey(IDa) && prvkyDatabaze.containsKey(IDb)){
+            zamestnanecA = prvkyDatabaze.get(IDa);
+            zamestnanecB = prvkyDatabaze.get(IDb);
+        }else{
+            System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje jedno z ID!" + ANSI_RESET);
+            return;
+        }
+        if((zamestnanecA != null) && (zamestnanecB != null)){
+            zamestnanecA.pristupKeSpolupracovnikum().put(zamestnanecB, popis);
+            zamestnanecA.pristupKeSpolupracovnikum().put(zamestnanecA, popis);
+            System.out.println(ANSI_GREEN + "Spolupráce byla úspěšně přidána!" + ANSI_RESET);
+        }else{
+            System.out.println(ANSI_RED + "CHYBA: Jedno z ID neexistuje!" + ANSI_RESET);
         }
     }
 }

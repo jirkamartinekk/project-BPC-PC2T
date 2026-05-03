@@ -4,15 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Zamestnanec implements Comparable<Zamestnanec>{
-    //TODO: zkontrolovat, jestli to final u ID nemrdá program
     private final int id;
     private final String jmeno;
     private final String prijmeni;
     private final short rok_narozeni;
     private final String skupina;
     private static int counter = 0;
-    //TODO: vymyslet spojení na kolegy (níže je varianta - vylepšit)
-    //private Map<Zamestnanec, String> spolupracovnici = new HashMap<>();
+    private Map<Zamestnanec, String> spolupracovnici = new HashMap<>();
 
     public Zamestnanec(String jmeno, String prijmeni, short rokNarozeni, String skupina) {
         this.id = counter;
@@ -53,6 +51,10 @@ public abstract class Zamestnanec implements Comparable<Zamestnanec>{
     }
 
     public abstract void spustDovednost();
+
+    public Map<Zamestnanec, String> pristupKeSpolupracovnikum(){
+        return spolupracovnici;
+    }
 
     @Override
     public String toString(){

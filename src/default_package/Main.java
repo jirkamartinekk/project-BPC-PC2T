@@ -34,6 +34,21 @@ public class Main {
         return true;
     }
 
+    private static boolean jeVstupValidniIDPopis(byte popis, int pocetPrvkuDatabaze){
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+
+        if(pocetPrvkuDatabaze <= 0){
+            System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
+            return false;
+        }
+        if (popis <= 0 || popis > 2) {
+            System.out.println(ANSI_RED + "CHYBA: Neplatný vstup spolupráce!" + ANSI_RESET);
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         //TODO: načtení dat z SQL databáze - Mám funkci na načtení a vytvoření objektů, potřebuju pomoct jak to propojit s lokalni db viz SQLDatabaze - nacistZamestnance()
         //TODO: dopsat podmínky pro správné načtení int, str atd.
@@ -122,7 +137,6 @@ public class Main {
                     if(vstupJeOk){
                         lokalniDatabaze.odstranZamestnance(ID);
                     }
-                    //TODO: odebrání zaměstnance ze všech vazeb
                     break;
                 }
                 case 3: {
@@ -144,7 +158,26 @@ public class Main {
                     break;
                 }
                 case 4: {
-                    //TODO: spolupráce mezi kolegy
+                    int IDa = 0;
+                    int IDb = 0;
+                    byte popis = 0;
+                    boolean vstupJeOk;
+                    try {
+                        System.out.print("Zadejte ID 1. zaměstnance: ");
+                        IDa = sc.nextInt();
+                        System.out.print("Zadejte ID 2. zaměstnance: ");
+                        IDb = sc.nextInt();
+                        System.out.print("Zadejte úroveň spolupráce (číslem) - Špatná (1) / Průměrně dobrá (2): ");
+                        popis = sc.nextByte();
+                        sc.nextLine();
+                    } catch (InputMismatchException e) {
+                        System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
+                        sc.nextLine();
+                    }
+                    vstupJeOk = jeVstupValidniIDPopis(popis, pocetPrvkuDatabaze);
+                    if(vstupJeOk){
+                        lokalniDatabaze.pridejSpolupraci(IDa, IDb, popis);
+                    }
                     break;
                 }
                 case 5: {
