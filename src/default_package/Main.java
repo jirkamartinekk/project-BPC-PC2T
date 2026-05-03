@@ -159,7 +159,6 @@ public class Main {
                         if(vstupJeOk){
                             lokalniDatabaze.vypisInfoOZamestnanci(ID);
                         }
-                        //TODO: dopsat statistiky spolupráce (nejspíš v Zamestnanec.java)
                         break;
                     }
                     case 4: {
