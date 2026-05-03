@@ -4,11 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Zamestnanec implements Comparable<Zamestnanec>{
-    private int id;
-    private String jmeno;
-    private String prijmeni;
-    private short rok_narozeni;
-    private String skupina;
+    //TODO: zkontrolovat, jestli to final u ID nemrdá program
+    private final int id;
+    private final String jmeno;
+    private final String prijmeni;
+    private final short rok_narozeni;
+    private final String skupina;
     private static int counter = 0;
     //TODO: vymyslet spojení na kolegy (níže je varianta - vylepšit)
     //private Map<Zamestnanec, String> spolupracovnici = new HashMap<>();
@@ -49,10 +50,6 @@ public abstract class Zamestnanec implements Comparable<Zamestnanec>{
 
     public String ziskejSkupinu() {
         return skupina;
-    }
-
-    public void nastavSkupinu(String skupina) {
-        System.out.println("Po vytvoreni zaznamu zamestnance jiz neni mozne jeho skupinu zmenit!");
     }
 
     public abstract void spustDovednost();
