@@ -119,7 +119,10 @@ public class LokalniDatabaze {
                 popis = "Špatná";
                 break;
             case 2:
-                popis = "Průměrně dobrá";
+                popis = "Průměrná";
+                break;
+            case 3:
+                popis = "Dobrá";
                 break;
         }
         Zamestnanec zamestnanecA = null;
@@ -137,7 +140,6 @@ public class LokalniDatabaze {
         }
         if((zamestnanecA != null) && (zamestnanecB != null)){
             zamestnanecA.pristupKeSpolupracovnikum().put(zamestnanecB, popis);
-            zamestnanecB.pristupKeSpolupracovnikum().put(zamestnanecA, popis);
             System.out.println(ANSI_GREEN + "Spolupráce byla úspěšně přidána!" + ANSI_RESET);
         }else{
             System.out.println(ANSI_RED + "CHYBA: Jedno z ID neexistuje!" + ANSI_RESET);

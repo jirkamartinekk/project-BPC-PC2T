@@ -31,6 +31,7 @@ public class Main {
             System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
             return false;
         }
+
         return true;
     }
 
@@ -42,7 +43,7 @@ public class Main {
             System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje žádné prvky!" + ANSI_RESET);
             return false;
         }
-        if (popis <= 0 || popis > 2) {
+        if (popis <= 0 || popis > 3) {
             System.out.println(ANSI_RED + "CHYBA: Neplatný vstup spolupráce!" + ANSI_RESET);
             return false;
         }
@@ -78,6 +79,8 @@ public class Main {
         int vybranaMoznost;
         Scanner sc = new Scanner(System.in);
         LokalniDatabaze lokalniDatabaze = new LokalniDatabaze();
+
+        //TODO: SQLLoad sem <---
 
         //začátek programu
         while (behProgramu) {
@@ -123,7 +126,7 @@ public class Main {
                         break;
                     }
                     case 2: {
-                        int ID = 0;
+                        Integer ID = null;
                         boolean vstupJeOk;
                         try {
                             System.out.print("Zadejte ID zaměstnance: ");
@@ -133,6 +136,7 @@ public class Main {
                             System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
                             sc.nextLine();
                         }
+                        if(ID == null){break;}
                         vstupJeOk = jeVstupValidniID(pocetPrvkuDatabaze);
                         if(vstupJeOk){
                             lokalniDatabaze.odstranZamestnance(ID);
@@ -140,7 +144,7 @@ public class Main {
                         break;
                     }
                     case 3: {
-                        int ID = 0;
+                        Integer ID = null;
                         boolean vstupJeOk;
                         try {
                             System.out.print("Zadejte ID zaměstnance: ");
@@ -150,6 +154,7 @@ public class Main {
                             System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
                             sc.nextLine();
                         }
+                        if(ID == null){break;}
                         vstupJeOk = jeVstupValidniID(pocetPrvkuDatabaze);
                         if(vstupJeOk){
                             lokalniDatabaze.vypisInfoOZamestnanci(ID);
@@ -167,7 +172,7 @@ public class Main {
                             IDa = sc.nextInt();
                             System.out.print("Zadejte ID 2. zaměstnance: ");
                             IDb = sc.nextInt();
-                            System.out.print("Zadejte úroveň spolupráce (číslem) - Špatná (1) / Průměrně dobrá (2): ");
+                            System.out.print("Zadejte úroveň spolupráce (číslem) - Špatná (1) / Průměrná (2) / Dobrá (3): ");
                             popis = sc.nextByte();
                             sc.nextLine();
                         } catch (InputMismatchException e) {
@@ -181,7 +186,7 @@ public class Main {
                         break;
                     }
                     case 5: {
-                        int ID = 0;
+                        Integer ID = null;
                         boolean vstupJeOk;
                         try {
                             System.out.print("Zadejte ID zaměstnance: ");
@@ -191,6 +196,7 @@ public class Main {
                             System.out.println(ANSI_RED +  "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
                             sc.nextLine();
                         }
+                        if(ID == null){break;}
                         vstupJeOk = jeVstupValidniID(pocetPrvkuDatabaze);
                         if(vstupJeOk){
                             lokalniDatabaze.dovednostZamestnance(ID);
