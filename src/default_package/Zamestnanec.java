@@ -22,6 +22,15 @@ public abstract class Zamestnanec{
         counter++;
     }
 
+    public Zamestnanec(int id, String jmeno, String prijmeni, short rok_narozeni, String skupina) {
+        this.id = id;
+        this.jmeno = jmeno;
+        this.prijmeni = prijmeni;
+        this.rok_narozeni = rok_narozeni;
+        this.skupina = skupina;
+        counter++;
+    }
+
     public int ziskejID() {
         return id;
     }

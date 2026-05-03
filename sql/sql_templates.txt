@@ -5,7 +5,7 @@ create table zamestnanci(
   	jmeno varchar(32),
   	prijmeni varchar(32),
   	rok_narozeni smallint,
-  	skupina tinyint
+  	skupina TEXT check (skupina in ('DATA','SEC'))
 );
 
 Spoluprace:

@@ -6,6 +6,10 @@ public class Analytik extends Zamestnanec{
         super(jmeno, prijmeni, rokNarozeni, skupina);
     }
 
+    public Analytik(int id, String jmeno, String prijmeni, Short rokNarozeni, String skupina){
+        super(id, jmeno, prijmeni, rokNarozeni, skupina);
+    }
+
     public void spustDovednost(){
         //TODO: napsat funkci pro vraceni spolupracovnika s nejvice spolecnymi spolupracovniky
         System.out.println("Jsem Analytik!");

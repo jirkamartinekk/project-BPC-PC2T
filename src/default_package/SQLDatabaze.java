@@ -1,9 +1,6 @@
 package default_package;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 //TODO: Jiřík opět změnil skupinu na string :D 😘
 
@@ -93,6 +90,65 @@ public class SQLDatabaze {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void nacistZamestnance(){
+        String sql = "SELECT * FROM zamestnanci";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = pripojeni.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String jmeno = rs.getString("jmeno");
+                String prijmeni = rs.getString("prijmeni");
+                short rok_narozeni = rs.getShort("rok_narozeni");
+                String skupina = rs.getString("skupina");
+
+                if(skupina.equals("DATA")){
+                    Analytik novyZamestnanec = new Analytik(id, jmeno, prijmeni, rok_narozeni, skupina);
+                }
+                else if(skupina.equals("SEC")){
+                    Bezpecak novyZamestnanec = new Bezpecak(id, jmeno, prijmeni, rok_narozeni, skupina);
+                }
+
+                //TODO: Pridat hajzla do lokální databáze - Jirko pomoc!
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    public void nacistSpoluprace(){
+        String sql = "SELECT * FROM spoluprace";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = pripojeni.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                int zamestnanec_id = rs.getInt("zamestnanec_id");
+                int spolupracovnik_id = rs.getInt("spolupracovnik_id");
+                String uroven = rs.getString("uroven");
+
+                //TODO: Pridat spolupraci do lokální databáze - Jirko pomoc!
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
 }

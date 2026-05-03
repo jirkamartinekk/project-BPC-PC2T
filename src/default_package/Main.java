@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        //TODO: načtení dat z SQL databáze
+        //TODO: načtení dat z SQL databáze - Mám funkci na načtení a vytvoření objektů, potřebuju pomoct jak to propojit s lokalni db viz SQLDatabaze - nacistZamestnance()
         //TODO: dopsat podmínky pro správné načtení int, str atd.
         final String VYPIS_MENU =
                 "--- HLAVNÍ MENU --- \n" +
