@@ -49,11 +49,14 @@ public class LokalniDatabaze {
         Zamestnanec hledanyZamestnanec = prvkyDatabaze.get(ID);
         if(hledanyZamestnanec != null){
             //System.out.println(ANSI_YELLOW + hledanyZamestnanec + ANSI_RESET);
-            System.out.printf("*ID:%d\t\tJMÉNO:%s\t\tPŘÍJMENÍ:%s\t\tROK NAROZENÍ:%d\t\tSKUPINA:%s", hledanyZamestnanec.ziskejID(), hledanyZamestnanec.ziskejJmeno(), hledanyZamestnanec.ziskejPrijmeni(), hledanyZamestnanec.ziskejRokNarozeni(), hledanyZamestnanec.ziskejSkupinu());
-            System.out.println("\n\tÚROVEŇ SPOLUPRÁCE");
-            for(Zamestnanec kolega : hledanyZamestnanec.pristupKeSpolupracovnikum().keySet()){
-                System.out.println("\t\t*" + kolega.pristupKeSpolupracovnikum().values());
-                //kolega.pristupKeSpolupracovnikum().values();
+            System.out.printf(ANSI_YELLOW + "*ID:%d\t\tJMÉNO:%s\t\tPŘÍJMENÍ:%s\t\tROK NAROZENÍ:%d\t\tSKUPINA:%s" + ANSI_RESET, hledanyZamestnanec.ziskejID(), hledanyZamestnanec.ziskejJmeno(), hledanyZamestnanec.ziskejPrijmeni(), hledanyZamestnanec.ziskejRokNarozeni(), hledanyZamestnanec.ziskejSkupinu());
+            System.out.println(ANSI_YELLOW + "\n\tÚROVEŇ SPOLUPRÁCE" + ANSI_RESET);
+            if(hledanyZamestnanec.pristupKeSpolupracovnikum().isEmpty()){
+                System.out.println(ANSI_RED + "\t\tNení evidována žádná spolupráce!" + ANSI_RESET);
+            }else{
+                for(Zamestnanec kolega : hledanyZamestnanec.pristupKeSpolupracovnikum().keySet()){
+                    System.out.println(ANSI_YELLOW + "\t\t*" + kolega.ziskejJmeno() + " " + kolega.ziskejPrijmeni() + " " + kolega.pristupKeSpolupracovnikum().values() + ANSI_RESET);
+                }
             }
         }else{
             System.out.println(ANSI_RED + "CHYBA: Hledaný zaměstnanec je typu null!" + ANSI_RESET);
@@ -135,7 +138,7 @@ public class LokalniDatabaze {
         }
         if((zamestnanecA != null) && (zamestnanecB != null)){
             zamestnanecA.pristupKeSpolupracovnikum().put(zamestnanecB, popis);
-            zamestnanecA.pristupKeSpolupracovnikum().put(zamestnanecA, popis);
+            zamestnanecB.pristupKeSpolupracovnikum().put(zamestnanecA, popis);
             System.out.println(ANSI_GREEN + "Spolupráce byla úspěšně přidána!" + ANSI_RESET);
         }else{
             System.out.println(ANSI_RED + "CHYBA: Jedno z ID neexistuje!" + ANSI_RESET);
