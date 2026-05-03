@@ -14,22 +14,29 @@ public class LokalniDatabaze {
         prvkyDatabaze = new HashMap<>();
     }
 
-    public void pridejZamestnance(String jmeno, String prijmeni, short rokNarozeni, Byte skupina){
-        try{
-            Zamestnanec zamestnanec = null;
-            switch (skupina) {
-                case 1:
-                    zamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, "Datový analytik");
-                    break;
-                case 2:
-                    zamestnanec = new Bezpecak(jmeno, prijmeni, rokNarozeni, "Bezpečnostní specialista");
-                    break;
-            }
-            prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
-            System.out.println(ANSI_GREEN + "Zaměstnanec byl přidán!" + ANSI_RESET);
-        }catch (Exception e){
-            System.out.println(ANSI_RED + "CHYBA: Zaměstnance se nepodařilo přidat!" + ANSI_RESET);
+    public void pridejZamestnance(String jmeno, String prijmeni, Short rokNarozeni, Byte skupina){
+
+        if(jmeno == null || prijmeni == null || rokNarozeni == null || skupina == null){
+            System.out.println("CHYBA: Alespoň jeden údaj nebyl zadán!");
+            return;
         }
+
+        Zamestnanec zamestnanec;
+        switch (skupina) {
+            case 1:
+                zamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, "Datový analytik");
+                break;
+            case 2:
+                zamestnanec = new Bezpecak(jmeno, prijmeni, rokNarozeni, "Bezpečnostní specialista");
+                break;
+            default:
+                System.out.println("CHYBA: Zadaná skupina neexistuje!");
+                return;
+        }
+
+        prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
+        System.out.println(ANSI_GREEN + "Zaměstnanec byl přidán!" + ANSI_RESET);
+
     }
 
     public void odstranZamestnance(int ID){
@@ -48,7 +55,7 @@ public class LokalniDatabaze {
     public void vypisInfoOZamestnanci(int ID){
         Zamestnanec hledanyZamestnanec = prvkyDatabaze.get(ID);
         if(hledanyZamestnanec != null){
-            System.out.printf(ANSI_YELLOW + "*ID:%d\t\tJMÉNO:%s\t\tPŘÍJMENÍ:%s\t\tROK NAROZENÍ:%d\t\tSKUPINA:%s" + ANSI_RESET, hledanyZamestnanec.ziskejID(), hledanyZamestnanec.ziskejJmeno(), hledanyZamestnanec.ziskejPrijmeni(), hledanyZamestnanec.ziskejRokNarozeni(), hledanyZamestnanec.ziskejSkupinu());
+            System.out.printf(ANSI_YELLOW + "*ID: %d\t\tJMÉNO: %s\t\tPŘÍJMENÍ: %s\t\tROK NAROZENÍ: %d\t\tSKUPINA: %s" + ANSI_RESET, hledanyZamestnanec.ziskejID(), hledanyZamestnanec.ziskejJmeno(), hledanyZamestnanec.ziskejPrijmeni(), hledanyZamestnanec.ziskejRokNarozeni(), hledanyZamestnanec.ziskejSkupinu());
             System.out.println(ANSI_YELLOW + "\n\tÚROVEŇ SPOLUPRÁCE" + ANSI_RESET);
             if(hledanyZamestnanec.pristupKeSpolupracovnikum().isEmpty()){
                 System.out.println(ANSI_RED + "\t\tNení evidována žádná spolupráce!" + ANSI_RESET);

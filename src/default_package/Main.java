@@ -52,7 +52,7 @@ public class Main {
 
     public static void main(String[] args) {
         //TODO: načtení dat z SQL databáze - Mám funkci na načtení a vytvoření objektů, potřebuju pomoct jak to propojit s lokalni db viz SQLDatabaze - nacistZamestnance()
-        SQLDatabaze sqlDB = new SQLDatabaze();
+
 
         final String VYPIS_MENU =
                 "--- HLAVNÍ MENU --- \n" +
@@ -79,7 +79,7 @@ public class Main {
         int vybranaMoznost;
         Scanner sc = new Scanner(System.in);
         LokalniDatabaze lokalniDatabaze = new LokalniDatabaze();
-
+        SQLDatabaze sqlDB = new SQLDatabaze();
         //TODO: SQLLoad sem <---
 
         //začátek programu
