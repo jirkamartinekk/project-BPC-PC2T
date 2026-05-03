@@ -2,19 +2,22 @@ package default_package;
 
 import java.sql.*;
 
-//TODO: Jiřík opět změnil skupinu na string :D 😘
+//TODO: Jiřík opět změnil skupinu na string :D RE: T-T
 
 public class SQLDatabaze {
     private Connection pripojeni = null;
 
-    public boolean pripojDatabazi(){
+    public SQLDatabaze(){
+        pripojDatabazi();
+
+    }
+
+    public void pripojDatabazi(){
         try{
-            pripojeni = DriverManager.getConnection("jdbc:sqlite:databaze.db");
-        }catch (SQLException e){
+            pripojeni = DriverManager.getConnection("jdbc:sqlite:sql/databaze.db");
+        }catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
         }
-        return true;
     }
 
     public boolean odpojDatabazi(){
