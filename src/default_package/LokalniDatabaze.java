@@ -35,10 +35,9 @@ public class LokalniDatabaze {
     }
 
     public void odstranZamestnance(int ID){
-        Zamestnanec mazanyZamestnanec = prvkyDatabaze.get(ID);
         if(prvkyDatabaze.containsKey(ID)){
-            for(Zamestnanec kolega : mazanyZamestnanec.pristupKeSpolupracovnikum().keySet()){
-                kolega.pristupKeSpolupracovnikum().remove(mazanyZamestnanec); //u kolegů nemaže na základě ID, ale typu Zamestnanec
+            for(Zamestnanec kolega : prvkyDatabaze.values()){
+                kolega.pristupKeSpolupracovnikum().remove(prvkyDatabaze.get(ID)); //u kolegů nemaže na základě ID, ale typu Zamestnanec
             }
             prvkyDatabaze.remove(ID);
             System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně odebrán!" + ANSI_RESET);
