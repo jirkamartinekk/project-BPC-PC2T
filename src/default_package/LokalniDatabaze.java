@@ -77,13 +77,13 @@ public class LokalniDatabaze {
         System.out.println("\tDatoví analytici");
         for(Zamestnanec zamestnanec : seznamZamestnancu){
             if(zamestnanec instanceof Analytik){
-                System.out.println("\t\t" + zamestnanec);
+                System.out.println(ANSI_YELLOW + "\t\t" + zamestnanec + ANSI_RESET);
             }
         }
         System.out.println("\tBezpečnostní specialisté");
         for(Zamestnanec zamestnanec : seznamZamestnancu){
             if(zamestnanec instanceof Bezpecak){
-                System.out.println("\t\t" + zamestnanec);
+                System.out.println(ANSI_YELLOW + "\t\t" + zamestnanec + ANSI_RESET);
             }
         }
     }
