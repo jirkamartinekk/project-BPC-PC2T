@@ -16,12 +16,8 @@ public class LokalniDatabaze {
 
     public void pridejZamestnance(String jmeno, String prijmeni, Short rokNarozeni, Byte skupina){
 
-        if(jmeno == null || prijmeni == null || rokNarozeni == null || skupina == null){
-            System.out.println("CHYBA: Alespoň jeden údaj nebyl zadán!");
-            return;
-        }
+        Zamestnanec zamestnanec = null;
 
-        Zamestnanec zamestnanec;
         switch (skupina) {
             case 1:
                 zamestnanec = new Analytik(jmeno, prijmeni, rokNarozeni, "Datový analytik");
@@ -30,7 +26,6 @@ public class LokalniDatabaze {
                 zamestnanec = new Bezpecak(jmeno, prijmeni, rokNarozeni, "Bezpečnostní specialista");
                 break;
             default:
-                System.out.println("CHYBA: Zadaná skupina neexistuje!");
                 return;
         }
 
