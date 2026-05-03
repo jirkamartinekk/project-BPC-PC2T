@@ -54,8 +54,11 @@ public class LokalniDatabaze {
             if(hledanyZamestnanec.pristupKeSpolupracovnikum().isEmpty()){
                 System.out.println(ANSI_RED + "\t\tNení evidována žádná spolupráce!" + ANSI_RESET);
             }else{
-                for(Zamestnanec kolega : hledanyZamestnanec.pristupKeSpolupracovnikum().keySet()){
-                    System.out.println(ANSI_YELLOW + "\t\t*" + kolega.ziskejJmeno() + " " + kolega.ziskejPrijmeni() + " " + kolega.pristupKeSpolupracovnikum().values() + ANSI_RESET);
+                for(Map.Entry<Zamestnanec, String> popis : hledanyZamestnanec.pristupKeSpolupracovnikum().entrySet()) {
+                    String jmeno = popis.getKey().ziskejJmeno();
+                    String prijmeni = popis.getKey().ziskejPrijmeni();
+                    String hodnoceni = popis.getValue();
+                    System.out.println(ANSI_YELLOW + "\t\t-" + jmeno + " " + prijmeni + ": " + hodnoceni + ANSI_RESET);
                 }
             }
         }else{

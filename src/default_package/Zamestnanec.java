@@ -58,7 +58,7 @@ public abstract class Zamestnanec implements Comparable<Zamestnanec>{
 
     @Override
     public String toString(){
-        return String.format("*ID:%d\t\tJMÉNO:%s\t\tPŘÍJMENÍ:%s\t\tROK NAROZENÍ:%d\t\tSKUPINA:%s", id, jmeno, prijmeni, rok_narozeni, skupina);
+        return String.format("*ID:%d\tJMÉNO:%s\tPŘÍJMENÍ:%s\tROK NAROZENÍ:%d\tSKUPINA:%s", id, jmeno, prijmeni, rok_narozeni, skupina);
     }
 
     @Override
