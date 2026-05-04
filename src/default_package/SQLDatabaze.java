@@ -1,6 +1,7 @@
 package default_package;
 
 import java.sql.*;
+import java.util.Map;
 
 public class SQLDatabaze {
     private Connection pripojeni = null;
@@ -45,17 +46,33 @@ public class SQLDatabaze {
             for(Zamestnanec zamestnanec : lokalniDatabaze.ziskejZamestnance()) {
                 ps = pripojeni.prepareStatement(sql);
 
+                String skupina = null;
+
+                switch(zamestnanec.ziskejSkupinu()) {
+                    case "Datový analytik":
+                        skupina = "DATA";
+                        break;
+                    case "Bezpečnostní specialista":
+                        skupina = "SEC";
+                        break;
+                    default:
+                        System.out.println(ANSI_RED + "CHYBA: Neplatný údaj 'skupina' při uložení zaměstnance " + ANSI_YELLOW + zamestnanec.ziskejID() + ANSI_RED + " !" + ANSI_RESET);
+                        continue;
+                }
+
                 ps.setInt(1, zamestnanec.ziskejID());
                 ps.setString(2, zamestnanec.ziskejJmeno());
                 ps.setString(3, zamestnanec.ziskejPrijmeni());
                 ps.setInt(4, zamestnanec.ziskejRokNarozeni());
-                ps.setString(5, zamestnanec.ziskejSkupinu());
+                ps.setString(5, skupina);
 
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        System.out.println();
 
     }
 
@@ -72,24 +89,45 @@ public class SQLDatabaze {
         }
     }
 
-    public void ulozitSpoluprace(){
+    public void ulozitSpoluprace() {
         String sql = "INSERT INTO spoluprace(zamestnanec_id, spolupracovnik_id, uroven) VALUES (?, ?, ?)";
 
-        PreparedStatement ps = null;
-        try {
-            for(//TODO: TADY KUK, CO VLASTNĚ CHCEME ITEROVAT A CO ZISKAVAT) {
-                ps = pripojeni.prepareStatement(sql);
+        try (PreparedStatement ps = pripojeni.prepareStatement(sql)) {
 
-                ps.setInt(1, zamestnanec.ziskejID());
-                ps.setInt(2, spolupracovnik.ziskejID());
-                ps.setString(3, uroven);
+            for (Zamestnanec zamestnanec : lokalniDatabaze.ziskejZamestnance()) {
 
-                ps.executeUpdate();
+                for (Map.Entry<Zamestnanec, String> entry : zamestnanec.pristupKeSpolupracovnikum().entrySet()) {
+
+                    Zamestnanec spolupracovnik = entry.getKey();
+                    String uroven = entry.getValue();
+
+                    ps.setInt(1, zamestnanec.ziskejID());
+                    ps.setInt(2, spolupracovnik.ziskejID());
+
+                    // převod na DB hodnoty
+                    switch (uroven) {
+                        case "Špatná":
+                            ps.setString(3, "spatna");
+                            break;
+                        case "Průměrná":
+                            ps.setString(3, "prumerna");
+                            break;
+                        case "Dobrá":
+                            ps.setString(3, "dobra");
+                            break;
+                        default:
+                            System.out.println(ANSI_RED + "CHYBA: Neplatný údaj 'skupina' při uložení spolupráce " + ANSI_YELLOW + zamestnanec.ziskejID() + "->" + spolupracovnik.ziskejID() + ANSI_RED + " !" + ANSI_RESET);
+                            continue;
+                    }
+
+                    ps.executeUpdate();
+                }
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        System.out.println(ANSI_GREEN + "Data úspěšně uložena do SQL databáze!" + ANSI_RESET);
     }
 
     public void smazatSpoluprace(){
@@ -143,8 +181,6 @@ public class SQLDatabaze {
             throw new RuntimeException(e);
         }
 
-        System.out.println(ANSI_GREEN + "Data z SQL databáze úspěšně načtena!" + ANSI_RESET);
-
     }
 
     public void nacistSpoluprace(){
@@ -169,6 +205,7 @@ public class SQLDatabaze {
             throw new RuntimeException(e);
         }
 
+        System.out.println(ANSI_GREEN + "Data z SQL databáze úspěšně načtena!" + ANSI_RESET);
 
     }
 

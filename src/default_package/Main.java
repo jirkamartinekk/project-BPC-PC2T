@@ -96,8 +96,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        //TODO: načtení dat z SQL databáze - Mám funkci na načtení a vytvoření objektů, potřebuju pomoct jak to propojit s lokalni db viz SQLDatabaze - nacistZamestnance()
-
 
         final String VYPIS_MENU =
                 "--- HLAVNÍ MENU --- \n" +
@@ -253,7 +251,7 @@ public class Main {
                         break;
                     }
                     case 6: {
-                        //TODO: statistiky - MIKEŠ
+                        lokalniDatabaze.vypisStatistiku();
                         break;
                     }
                     case 7: {
@@ -294,7 +292,7 @@ public class Main {
                         break;
                     }
                     default:
-                        System.out.println("Tak seš píča? Neumíš snad počítat do 10?!");
+                        System.out.println(ANSI_RED + "CHYBA: Zadaná volba je mimo rozsah výběru!" + ANSI_RESET + "\n\n(Pokud tuto zprávu čtete, bude plný počet? :D)");
                         break;
                 }
             }catch (InputMismatchException e){

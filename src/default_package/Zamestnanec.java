@@ -27,7 +27,7 @@ public abstract class Zamestnanec implements Comparable<Zamestnanec>{
         this.prijmeni = prijmeni;
         this.rok_narozeni = rokNarozeni;
         this.skupina = skupina;
-        counter++;
+        counter = id+1;
     }
 
     public int ziskejID() {
