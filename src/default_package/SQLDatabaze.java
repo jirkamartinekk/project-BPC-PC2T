@@ -5,7 +5,15 @@ import java.sql.*;
 public class SQLDatabaze {
     private Connection pripojeni = null;
 
-    public SQLDatabaze(){
+    private LokalniDatabaze lokalniDatabaze = null;
+
+    final String ANSI_RESET = "\u001B[0m";
+    final String ANSI_RED = "\u001B[31m";
+    final String ANSI_GREEN = "\u001B[32m";
+    final String ANSI_YELLOW = "\u001B[33m";
+
+    public SQLDatabaze(LokalniDatabaze lokalniDatabaze){
+        this.lokalniDatabaze = lokalniDatabaze;
         pripojDatabazi();
 
     }
@@ -98,6 +106,9 @@ public class SQLDatabaze {
 
         PreparedStatement ps = null;
         ResultSet rs = null;
+
+        Zamestnanec novyZamestnanec = null;
+
         try {
             ps = pripojeni.prepareStatement(sql);
 
@@ -111,19 +122,24 @@ public class SQLDatabaze {
                 String skupina = rs.getString("skupina");
 
                 if(skupina.equals("DATA")){
-                    Analytik novyZamestnanec = new Analytik(id, jmeno, prijmeni, rok_narozeni, skupina);
+                    novyZamestnanec = new Analytik(id, jmeno, prijmeni, rok_narozeni, skupina);
                 }
                 else if(skupina.equals("SEC")){
-                    Bezpecak novyZamestnanec = new Bezpecak(id, jmeno, prijmeni, rok_narozeni, skupina);
+                    novyZamestnanec = new Bezpecak(id, jmeno, prijmeni, rok_narozeni, skupina);
+                }
+                else{
+                    System.out.println("Nastala chyba při načtení zaměstnance " + ANSI_YELLOW + id + ANSI_RED + " !" + ANSI_RESET);
+                    return;
                 }
 
-                //TODO: Pridat hajzla do lokální databáze - Jirko pomoc!
+                lokalniDatabaze.pridejZamestnanceSQL(id, jmeno, prijmeni, rok_narozeni, skupina);
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+        System.out.println(ANSI_GREEN + "Data z SQL databáze úspěšně načtena!" + ANSI_RESET);
 
     }
 

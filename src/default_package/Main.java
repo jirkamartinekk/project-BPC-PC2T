@@ -1,5 +1,4 @@
 package default_package;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -125,8 +124,8 @@ public class Main {
         int vybranaMoznost;
         Scanner sc = new Scanner(System.in);
         LokalniDatabaze lokalniDatabaze = new LokalniDatabaze();
-        SQLDatabaze sqlDB = new SQLDatabaze();
-        //TODO: SQLLoad sem <---
+        SQLDatabaze sqlDB = new SQLDatabaze(lokalniDatabaze);
+        sqlDB.nacistZamestnance();
 
         //začátek programu
         while (behProgramu) {

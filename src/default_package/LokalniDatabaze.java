@@ -36,6 +36,25 @@ public class LokalniDatabaze {
 
     }
 
+    public void pridejZamestnanceSQL(int id, String jmeno, String prijmeni, Short rokNarozeni, String skupina){
+
+        Zamestnanec zamestnanec = null;
+
+        switch (skupina) {
+            case "DATA":
+                zamestnanec = new Analytik(id, jmeno, prijmeni, rokNarozeni, "Datový analytik");
+                break;
+            case "SEC":
+                zamestnanec = new Bezpecak(id, jmeno, prijmeni, rokNarozeni, "Bezpečnostní specialista");
+                break;
+            default:
+                return;
+        }
+
+        prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
+
+    }
+
     public void odstranZamestnance(int ID){
         if(prvkyDatabaze.containsKey(ID)){
             for(Zamestnanec kolega : prvkyDatabaze.values()){
