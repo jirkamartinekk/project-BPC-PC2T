@@ -16,6 +16,10 @@ public class LokalniDatabaze {
         prvkyDatabaze = new HashMap<>();
     }
 
+    public Collection<Zamestnanec> ziskejZamestnance(){
+        return prvkyDatabaze.values();
+    }
+
     public void pridejZamestnance(String jmeno, String prijmeni, Short rokNarozeni, Byte skupina){
 
         Zamestnanec zamestnanec = null;
@@ -149,6 +153,42 @@ public class LokalniDatabaze {
             case 3:
                 popis = "Dobrá";
                 break;
+        }
+        Zamestnanec zamestnanecA = null;
+        Zamestnanec zamestnanecB = null;
+        if(IDa == IDb){
+            System.out.println(ANSI_RED + "CHYBA: Nelze propojit identické zaměstnance!" + ANSI_RESET);
+            return;
+        }
+        if(prvkyDatabaze.containsKey(IDa) && prvkyDatabaze.containsKey(IDb)){
+            zamestnanecA = prvkyDatabaze.get(IDa);
+            zamestnanecB = prvkyDatabaze.get(IDb);
+        }else{
+            System.out.println(ANSI_RED + "CHYBA: Databáze neobsahuje jedno z ID!" + ANSI_RESET);
+            return;
+        }
+        if((zamestnanecA != null) && (zamestnanecB != null)){
+            zamestnanecA.pristupKeSpolupracovnikum().put(zamestnanecB, popis);
+            System.out.println(ANSI_GREEN + "Spolupráce byla úspěšně přidána!" + ANSI_RESET);
+        }else{
+            System.out.println(ANSI_RED + "CHYBA: Jedno z ID neexistuje!" + ANSI_RESET);
+        }
+    }
+
+    public void pridejSpolupraciSQL(int IDa, int IDb, String popisVstup){
+        String popis = "";
+        switch (popisVstup){
+            case "spatna":
+                popis = "Špatná";
+                break;
+            case "prumerna":
+                popis = "Průměrná";
+                break;
+            case "dobra":
+                popis = "Dobrá";
+                break;
+            default:
+                System.out.println(ANSI_RED + "CHYBA: Neplatný údaj 'úroveň' při načtení spolupráce" + ANSI_YELLOW + IDa + "->" + IDb + ANSI_RED + " !" + ANSI_RESET);
         }
         Zamestnanec zamestnanecA = null;
         Zamestnanec zamestnanecB = null;

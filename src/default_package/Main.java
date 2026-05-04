@@ -126,6 +126,7 @@ public class Main {
         LokalniDatabaze lokalniDatabaze = new LokalniDatabaze();
         SQLDatabaze sqlDB = new SQLDatabaze(lokalniDatabaze);
         sqlDB.nacistZamestnance();
+        sqlDB.nacistSpoluprace();
 
         //začátek programu
         while (behProgramu) {
@@ -138,7 +139,10 @@ public class Main {
                 switch (vybranaMoznost) {
                     case 0: {
                         behProgramu = false;
-                        //TODO: kód pro uložení dat do databáze přes SQL - MIKEŠ
+                        sqlDB.smazatSpoluprace();
+                        sqlDB.smazatZamestnance();
+                        sqlDB.ulozitZamestnance();
+                        sqlDB.ulozitSpoluprace();
                         break;
                     }
                     case 1: {

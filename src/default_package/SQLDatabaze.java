@@ -37,20 +37,22 @@ public class SQLDatabaze {
         return true;
     }
 
-    public void pridatZamestnance(Zamestnanec pracovnik){
+    public void ulozitZamestnance(){
         String sql = "INSERT INTO zamestnanci(id, jmeno, prijmeni, rok_narozeni, skupina) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement ps = null;
         try {
-            ps = pripojeni.prepareStatement(sql);
+            for(Zamestnanec zamestnanec : lokalniDatabaze.ziskejZamestnance()) {
+                ps = pripojeni.prepareStatement(sql);
 
-            ps.setInt(1, pracovnik.ziskejID());
-            ps.setString(2, pracovnik.ziskejJmeno());
-            ps.setString(3, pracovnik.ziskejPrijmeni());
-            ps.setInt(4, pracovnik.ziskejRokNarozeni());
-            ps.setString(5, pracovnik.ziskejSkupinu());
+                ps.setInt(1, zamestnanec.ziskejID());
+                ps.setString(2, zamestnanec.ziskejJmeno());
+                ps.setString(3, zamestnanec.ziskejPrijmeni());
+                ps.setInt(4, zamestnanec.ziskejRokNarozeni());
+                ps.setString(5, zamestnanec.ziskejSkupinu());
 
-            ps.executeUpdate();
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -70,18 +72,20 @@ public class SQLDatabaze {
         }
     }
 
-    public void pridatSpolupraci(Zamestnanec pracovnik, Zamestnanec spolupracovnik, String uroven){
+    public void ulozitSpoluprace(){
         String sql = "INSERT INTO spoluprace(zamestnanec_id, spolupracovnik_id, uroven) VALUES (?, ?, ?)";
 
         PreparedStatement ps = null;
         try {
-            ps = pripojeni.prepareStatement(sql);
+            for(//TODO: TADY KUK, CO VLASTNĚ CHCEME ITEROVAT A CO ZISKAVAT) {
+                ps = pripojeni.prepareStatement(sql);
 
-            ps.setInt(1, pracovnik.ziskejID());
-            ps.setInt(2, spolupracovnik.ziskejID());
-            ps.setString(3, uroven);
+                ps.setInt(1, zamestnanec.ziskejID());
+                ps.setInt(2, spolupracovnik.ziskejID());
+                ps.setString(3, uroven);
 
-            ps.executeUpdate();
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -128,7 +132,7 @@ public class SQLDatabaze {
                     novyZamestnanec = new Bezpecak(id, jmeno, prijmeni, rok_narozeni, skupina);
                 }
                 else{
-                    System.out.println("Nastala chyba při načtení zaměstnance " + ANSI_YELLOW + id + ANSI_RED + " !" + ANSI_RESET);
+                    System.out.println(ANSI_RED + "CHYBA: Neplatný údaj 'skupina' při načtení zaměstnance " + ANSI_YELLOW + id + ANSI_RED + " !" + ANSI_RESET);
                     return;
                 }
 
@@ -158,7 +162,7 @@ public class SQLDatabaze {
                 int spolupracovnik_id = rs.getInt("spolupracovnik_id");
                 String uroven = rs.getString("uroven");
 
-                //TODO: Pridat spolupraci do lokální databáze - Jirko pomoc!
+                lokalniDatabaze.pridejSpolupraciSQL(zamestnanec_id, spolupracovnik_id, uroven);
             }
 
         } catch (SQLException e) {
