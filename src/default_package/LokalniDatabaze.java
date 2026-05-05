@@ -143,9 +143,9 @@ public class LokalniDatabaze {
 
     public void vypisStatistiku(){
 
-        int counterSpatna = 0;
-        int counterPrumerna = 0;
-        int counterDobra = 0;
+        int pocetSpatna = 0;
+        int pocetPrumerna = 0;
+        int pocetDobra = 0;
         int id;
         int spoluprace;
 
@@ -165,15 +165,15 @@ public class LokalniDatabaze {
                 // převod na DB hodnoty
                 switch (uroven) {
                     case "Špatná":
-                        counterSpatna++;
+                        pocetSpatna++;
                         spoluprace++;
                         break;
                     case "Průměrná":
-                        counterPrumerna++;
+                        pocetPrumerna++;
                         spoluprace++;
                         break;
                     case "Dobrá":
-                        counterDobra++;
+                        pocetDobra++;
                         spoluprace++;
                         break;
                     default:
@@ -193,17 +193,17 @@ public class LokalniDatabaze {
         if(idMax == null) {
             System.out.println(ANSI_GREEN + "Zaměstnanci nemají žádné vazby. Počet spoluprací je " + ANSI_YELLOW + 0 + ANSI_RESET);
         } else{
-            System.out.println(ANSI_GREEN + "Zaměstnanec s největším počtem vazeb má " + ANSI_RESET + "ID: " + ANSI_YELLOW + idMax + ANSI_GREEN + " s počtem spoluprací: " + ANSI_YELLOW + spolupraceMax + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "Zaměstnanec s největším počtem vazeb má ID: " + ANSI_YELLOW + idMax + ANSI_GREEN + " s počtem spoluprací: " + ANSI_YELLOW + spolupraceMax + ANSI_RESET);
         }
 
-        if(counterSpatna > counterPrumerna && counterSpatna > counterDobra){
-            System.out.println(ANSI_GREEN + "Spolupráce s největším výskytem je úrovně 'Špatná' s počtem: " + ANSI_YELLOW + counterSpatna + ANSI_GREEN + "\nZde jsou výsledky:\nŠpatná: " + ANSI_YELLOW + counterSpatna + ANSI_GREEN + "\nPrůměrná: " + ANSI_YELLOW + counterPrumerna + ANSI_GREEN + "\nDobrá: " + ANSI_YELLOW + counterDobra + "\n" + ANSI_RESET);
-        } else if(counterPrumerna > counterSpatna && counterPrumerna > counterDobra){
-            System.out.println(ANSI_GREEN + "Spolupráce s největším výskytem je úrovně 'Průměrná' s počtem: " + ANSI_YELLOW + counterPrumerna + ANSI_GREEN + "\nZde jsou výsledky:\nŠpatná: " + ANSI_YELLOW + counterSpatna + ANSI_GREEN + "\nPrůměrná: " + ANSI_YELLOW + counterPrumerna + ANSI_GREEN + "\nDobrá: " + ANSI_YELLOW + counterDobra + "\n" + ANSI_RESET);
-        } else if(counterDobra > counterSpatna && counterDobra > counterPrumerna){
-            System.out.println(ANSI_GREEN + "Spolupráce s největším výskytem je úrovně 'Dobrá' s počtem: " + ANSI_YELLOW + counterDobra + ANSI_GREEN + "\nZde jsou výsledky:\nŠpatná: " + ANSI_YELLOW + counterSpatna + ANSI_GREEN + "\nPrůměrná: " + ANSI_YELLOW + counterPrumerna + ANSI_GREEN + "\nDobrá: " + ANSI_YELLOW + counterDobra + "\n" + ANSI_RESET);
+        if(pocetSpatna > pocetPrumerna && pocetSpatna > pocetDobra){
+            System.out.println(ANSI_GREEN + "Spolupráce s největším výskytem je úrovně 'Špatná' s počtem: " + ANSI_YELLOW + pocetSpatna + ANSI_GREEN + "\nZde jsou výsledky:\nŠpatná: " + ANSI_YELLOW + pocetSpatna + ANSI_GREEN + "\nPrůměrná: " + ANSI_YELLOW + pocetPrumerna + ANSI_GREEN + "\nDobrá: " + ANSI_YELLOW + pocetDobra + "\n" + ANSI_RESET);
+        } else if(pocetPrumerna > pocetSpatna && pocetPrumerna > pocetDobra){
+            System.out.println(ANSI_GREEN + "Spolupráce s největším výskytem je úrovně 'Průměrná' s počtem: " + ANSI_YELLOW + pocetPrumerna + ANSI_GREEN + "\nZde jsou výsledky:\nŠpatná: " + ANSI_YELLOW + pocetSpatna + ANSI_GREEN + "\nPrůměrná: " + ANSI_YELLOW + pocetPrumerna + ANSI_GREEN + "\nDobrá: " + ANSI_YELLOW + pocetDobra + "\n" + ANSI_RESET);
+        } else if(pocetDobra > pocetSpatna && pocetDobra > pocetPrumerna){
+            System.out.println(ANSI_GREEN + "Spolupráce s největším výskytem je úrovně 'Dobrá' s počtem: " + ANSI_YELLOW + pocetDobra + ANSI_GREEN + "\nZde jsou výsledky:\nŠpatná: " + ANSI_YELLOW + pocetSpatna + ANSI_GREEN + "\nPrůměrná: " + ANSI_YELLOW + pocetPrumerna + ANSI_GREEN + "\nDobrá: " + ANSI_YELLOW + pocetDobra + "\n" + ANSI_RESET);
         } else{
-            System.out.println(ANSI_GREEN + "Není " + ANSI_RED + "jeden" + ANSI_GREEN + " maximální výskyt úrovně spolupráce\nZde jsou výsledky:\nŠpatná: " + ANSI_YELLOW + counterSpatna + ANSI_GREEN + "\nPrůměrná: " + ANSI_YELLOW + counterPrumerna + ANSI_GREEN + "\nDobrá: " + ANSI_YELLOW + counterDobra + "\n" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "Není " + ANSI_RED + "jeden" + ANSI_GREEN + " maximální výskyt úrovně spolupráce\nZde jsou výsledky:\nŠpatná: " + ANSI_YELLOW + pocetSpatna + ANSI_GREEN + "\nPrůměrná: " + ANSI_YELLOW + pocetPrumerna + ANSI_GREEN + "\nDobrá: " + ANSI_YELLOW + pocetDobra + "\n" + ANSI_RESET);
 
         }
 
