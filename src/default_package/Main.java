@@ -13,7 +13,7 @@ public class Main {
         if (jmeno.isEmpty() || prijmeni.isEmpty()) {
             System.out.println(ANSI_RED + "CHYBA: Jméno nebo příjmení jsou prázdné!" + ANSI_RESET);
             return false;
-        } else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) { //zakazuje vložit do stringu int
+        } else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) {
             System.out.println(ANSI_RED + "CHYBA: Jméno a příjmení nesmí obsahovat čísla!" + ANSI_RESET);
             return false;
         } else if (rokNarozeni < 1930 || rokNarozeni > 2026) {
@@ -126,7 +126,6 @@ public class Main {
         sqlDB.nacistZamestnance();
         sqlDB.nacistSpoluprace();
 
-        //začátek programu
         while (behProgramu) {
             int pocetPrvkuDatabaze = lokalniDatabaze.pocetPrvkuDatabaze();
             System.out.println(VYPIS_MENU);
@@ -161,14 +160,13 @@ public class Main {
                                 rokNarozeni = sc.nextShort();
                                 System.out.print("Zadej pracovní skupinu (číslem) - Datový analytik (1) / Bezpečnostní specialista (2): ");
                                 skupina = sc.nextByte();
-                                sc.nextLine(); //vyčištění scanneru, ať to pak nemrdá podmínky níž
+                                sc.nextLine();
                             }catch (InputMismatchException e) {
                                 System.out.println(ANSI_RED + "CHYBA: Nedodržuješ syntaxi!" + ANSI_RESET);
                                 sc.nextLine();
                             }
                             vstupJeOk = jeVstupValidniPridaniZamestnance(jmeno, prijmeni, rokNarozeni, skupina);
                         }
-                        //noinspection ConstantValue
                         if (vstupJeOk) {
                             lokalniDatabaze.pridejZamestnance(jmeno, prijmeni, rokNarozeni, skupina);
                         }

@@ -63,32 +63,29 @@ public abstract class Zamestnanec implements Comparable<Zamestnanec>{
 
     @Override
     public boolean equals(Object kolega){
-        //jedná se o stejné objekty?
         if (this == kolega) {
             return true;
         }
 
-        //je kolega typu Zaměstnanec?
         if (!(kolega instanceof Zamestnanec)) {
             return false;
         }
 
         Zamestnanec on = (Zamestnanec) kolega;
 
-        //jsou si rovni, pokud mají stejné ID
         return this.id == on.id;
     }
 
     @Override
     public int hashCode(){
-        return Integer.hashCode(id); //musí se zvolit pole, které se nemění | je použit Integer wrapper
+        return Integer.hashCode(id);
     }
 
     @Override
     public int compareTo(Zamestnanec kolega){
         int compare = this.prijmeni.compareToIgnoreCase(kolega.prijmeni);
         if (compare == 0){
-            return this.jmeno.compareToIgnoreCase(kolega.jmeno); //pro případ, že ty 2 volové mají stejný příjmení
+            return this.jmeno.compareToIgnoreCase(kolega.jmeno);
         }
         return compare;
     }

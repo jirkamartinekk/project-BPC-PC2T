@@ -62,7 +62,7 @@ public class LokalniDatabaze {
     public void odstranZamestnance(int ID){
         if(prvkyDatabaze.containsKey(ID)){
             for(Zamestnanec kolega : prvkyDatabaze.values()){
-                kolega.pristupKeSpolupracovnikum().remove(prvkyDatabaze.get(ID)); //maže zápis o kolegovi | u kolegů nemaže na základě ID, ale typu Zamestnanec
+                kolega.pristupKeSpolupracovnikum().remove(prvkyDatabaze.get(ID));
             }
             prvkyDatabaze.remove(ID);
             System.out.println(ANSI_GREEN + "Zaměstnanec byl úspěšně odebrán!" + ANSI_RESET);
@@ -162,7 +162,6 @@ public class LokalniDatabaze {
                 Zamestnanec spolupracovnik = entry.getKey();
                 String uroven = entry.getValue();
 
-                // převod na DB hodnoty
                 switch (uroven) {
                     case "Špatná":
                         pocetSpatna++;
