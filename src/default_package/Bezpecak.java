@@ -44,7 +44,7 @@ public class Bezpecak extends Zamestnanec{
                     break;
                 default:
                     System.out.println(ANSI_RED + "CHYBA: Neplatný údaj 'skupina' při statistice spolupráce / (Mohlo by být i absencí spolupráce? Otestujem) " + ANSI_YELLOW + this.ziskejID() + "->" + spolupracovnik.ziskejID() + ANSI_RED + " !" + ANSI_RESET);
-                    continue;
+                    break;
             }
         }
 

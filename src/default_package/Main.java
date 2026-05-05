@@ -141,6 +141,7 @@ public class Main {
                         sqlDB.smazatZamestnance();
                         sqlDB.ulozitZamestnance();
                         sqlDB.ulozitSpoluprace();
+                        sqlDB.odpojDatabazi();
                         break;
                     }
                     case 1: {
