@@ -282,26 +282,38 @@ public class LokalniDatabaze {
         Zamestnanec zamestnanec = prvkyDatabaze.get(id);
 
         if (zamestnanec == null) {
-            System.out.println("CHYBA: Zaměstnanec neexistuje!");
+            System.out.println(ANSI_RED + "CHYBA: Zaměstnanec neexistuje!" + ANSI_RESET);
             return;
         }
 
         try (BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(cesta), StandardCharsets.UTF_8))) {
 
-            String radek = zamestnanec.ziskejID() + ";" +
+            writer.write("ZAM;" +
+                    zamestnanec.ziskejID() + ";" +
                     zamestnanec.ziskejJmeno() + ";" +
                     zamestnanec.ziskejPrijmeni() + ";" +
                     zamestnanec.ziskejRokNarozeni() + ";" +
-                    zamestnanec.ziskejSkupinu();
-
-            writer.write(radek);
+                    zamestnanec.ziskejSkupinu());
             writer.newLine();
 
-            System.out.println(("Zaměstnanec úspěšně uložen do souboru!"));
+            for (Map.Entry<Zamestnanec, String> entry :
+                    zamestnanec.pristupKeSpolupracovnikum().entrySet()) {
+
+                Zamestnanec spolupracovnik = entry.getKey();
+                String uroven = entry.getValue();
+
+                writer.write("SPOL;" +
+                        zamestnanec.ziskejID() + ";" +
+                        spolupracovnik.ziskejID() + ";" +
+                        uroven);
+                writer.newLine();
+            }
+
+            System.out.println(ANSI_GREEN + "Zaměstnanec + spolupráce uloženy!" + ANSI_RESET);
 
         } catch (IOException e) {
-            System.out.println("CHYBA: Nepodařilo se uložit!");
+            System.out.println(ANSI_RED + "CHYBA: Nepodařilo se uložit!" + ANSI_RESET);
         }
     }
 
@@ -309,43 +321,52 @@ public class LokalniDatabaze {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new FileInputStream(cesta), StandardCharsets.UTF_8))) {
 
-            String radek = reader.readLine();
+            String radek;
+            Zamestnanec zamestnanec = null;
 
-            if (radek == null || radek.isEmpty()) {
-                System.out.println("CHYBA: Soubor je prázdný!");
-                return;
+            while ((radek = reader.readLine()) != null) {
+
+                String[] casti = radek.split(";");
+
+                if (casti[0].equals("ZAM")) {
+
+                    int id = Integer.parseInt(casti[1]);
+                    String jmeno = casti[2];
+                    String prijmeni = casti[3];
+                    short rok = Short.parseShort(casti[4]);
+                    String skupina = casti[5];
+
+                    if (skupina.equals("Datový analytik")) {
+                        zamestnanec = new Analytik(id, jmeno, prijmeni, rok, skupina);
+                    } else if (skupina.equals("Bezpečnostní specialista")) {
+                        zamestnanec = new Bezpecak(id, jmeno, prijmeni, rok, skupina);
+                    } else {
+                        System.out.println(ANSI_RED + "CHYBA: Neznámá skupina!" + ANSI_RESET);
+                        return;
+                    }
+
+                    prvkyDatabaze.put(id, zamestnanec);
+                }
+
+                else if (casti[0].equals("SPOL")) {
+
+                    int idA = Integer.parseInt(casti[1]);
+                    int idB = Integer.parseInt(casti[2]);
+                    String uroven = casti[3];
+
+                    Zamestnanec a = prvkyDatabaze.get(idA);
+                    Zamestnanec b = prvkyDatabaze.get(idB);
+
+                    if (a != null && b != null) {
+                        a.pristupKeSpolupracovnikum().put(b, uroven);
+                    }
+                }
             }
 
-            String[] casti = radek.split(";");
-
-            if (casti.length != 5) {
-                System.out.println("CHYBA: Špatný formát souboru!");
-                return;
-            }
-
-            int id = Integer.parseInt(casti[0]);
-            String jmeno = casti[1];
-            String prijmeni = casti[2];
-            short rok = Short.parseShort(casti[3]);
-            String skupina = casti[4];
-
-            Zamestnanec zamestnanec;
-
-            if (skupina.equals("Datový analytik")) {
-                zamestnanec = new Analytik(id, jmeno, prijmeni, rok, skupina);
-            } else if (skupina.equals("Bezpečnostní specialista")) {
-                zamestnanec = new Bezpecak(id, jmeno, prijmeni, rok, skupina);
-            } else {
-                System.out.println("CHYBA: Neznámá skupina!");
-                return;
-            }
-
-            prvkyDatabaze.put(id, zamestnanec);
-
-            System.out.println("Zaměstnanec byl úspěsně načten!");
+            System.out.println(ANSI_GREEN + "Zaměstnanec + spolupráce načteny!" + ANSI_RESET);
 
         } catch (IOException e) {
-            System.out.println("CHYBA: Nepodařilo se načíst soubor!");
+            System.out.println(ANSI_RED + "CHYBA: Nepodařilo se načíst soubor!" + ANSI_RESET);
         }
     }
 }
