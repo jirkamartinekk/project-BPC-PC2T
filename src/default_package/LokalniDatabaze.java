@@ -37,7 +37,6 @@ public class LokalniDatabaze {
 
         prvkyDatabaze.put(zamestnanec.ziskejID(), zamestnanec);
         System.out.println(ANSI_GREEN + "Zaměstnanec byl přidán!" + ANSI_RESET);
-
     }
 
     public void pridejZamestnanceSQL(int id, String jmeno, String prijmeni, Short rokNarozeni, String skupina){

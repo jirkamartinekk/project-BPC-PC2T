@@ -16,7 +16,7 @@ public class Main {
         } else if (jmeno.matches(".*\\d.*") || prijmeni.matches(".*\\d.*")) {
             System.out.println(ANSI_RED + "CHYBA: Jméno a příjmení nesmí obsahovat čísla!" + ANSI_RESET);
             return false;
-        } else if (rokNarozeni < 1930 || rokNarozeni > 2026) {
+        } else if (rokNarozeni < 1930 || rokNarozeni > 2008) {
             System.out.println(ANSI_RED + "CHYBA: Neplatný rok narození!" + ANSI_RESET);
             return false;
         } else if (skupina != 1 && skupina != 2) {

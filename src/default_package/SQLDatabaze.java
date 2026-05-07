@@ -16,7 +16,6 @@ public class SQLDatabaze {
     public SQLDatabaze(LokalniDatabaze lokalniDatabaze){
         this.lokalniDatabaze = lokalniDatabaze;
         pripojDatabazi();
-
     }
 
     public void pripojDatabazi(){
@@ -73,7 +72,6 @@ public class SQLDatabaze {
         }
 
         System.out.println();
-
     }
 
     public void smazatZamestnance(){

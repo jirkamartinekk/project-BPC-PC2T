@@ -16,6 +16,7 @@ public class Bezpecak extends Zamestnanec{
         super(id, jmeno, prijmeni, rokNarozeni, skupina);
     }
 
+    @Override
     public void spustDovednost(){
 
         float counterSpatna = 0;
@@ -23,7 +24,6 @@ public class Bezpecak extends Zamestnanec{
         float counterDobra = 0;
         float spoluprace = 0;
 
-        System.out.println(ANSI_YELLOW + "Jsem Bezpečák!" + ANSI_RESET);
         for(Map.Entry<Zamestnanec,String> entry : this.pristupKeSpolupracovnikum().entrySet()){
 
             Zamestnanec spolupracovnik = entry.getKey();

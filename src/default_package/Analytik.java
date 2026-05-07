@@ -16,10 +16,8 @@ public class Analytik extends Zamestnanec{
         super(id, jmeno, prijmeni, rokNarozeni, skupina);
     }
 
+    @Override
     public void spustDovednost(){
-
-        System.out.println(ANSI_YELLOW + "Jsem Analytik!" + ANSI_RESET);
-
         Set<Zamestnanec> spolupracovnikZamestnance = this.pristupKeSpolupracovnikum().keySet();
 
         Zamestnanec maxSpolupracovnik = null;
